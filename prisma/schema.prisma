@@ -1,0 +1,111 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                       String             @id @default(uuid())
+  fullName                 String
+  userName                 String?            @unique
+  instagram                String?
+  password                 String?
+  email                    String?
+  role                     UserRole           @default(USER)
+  phone                    String             @unique
+  createdAt                DateTime
+  updatedAt                DateTime?
+  isVerified               Boolean            @default(false)
+  VerificationCode         VerificationCode[]
+  lastPasswordModification DateTime?
+  isEmailVerified          Boolean?
+  Prediction               Prediction[]
+
+  @@map("users")
+}
+
+model VerificationCode {
+  id        String    @id @default(uuid())
+  user      User      @relation(fields: [userId], references: [id])
+  userId    String
+  code      String
+  expireIn  DateTime
+  createdAt DateTime
+  updatedAt DateTime?
+
+  @@map("verification_codes")
+}
+
+model Round {
+  id        String      @id @default(uuid())
+  name      String
+  status    RoundStatus @default(WAITING)
+  createdAt DateTime
+  updatedAt DateTime?
+  matchs    Match[]
+}
+
+model Team {
+  id         String    @id @default(uuid())
+  name       String    @unique
+  createdAt  DateTime
+  updatedAt  DateTime?
+  matchsHome Match[]   @relation("teamHome")
+  matchsAway Match[]   @relation("teamAway")
+}
+
+model Prediction {
+  id             String    @id @default(uuid())
+  predictionHome Int
+  predictionAway Int
+  user           User      @relation(fields: [userId], references: [id])
+  userId         String
+  match          Match     @relation(fields: [matchId], references: [id])
+  matchId        String
+  createdAt      DateTime
+  updatedAt      DateTime?
+}
+
+model Match {
+  id          String       @id @default(uuid())
+  scoreHome   Int
+  scoreAway   Int
+  teamHome    Team         @relation("teamHome", fields: [teamIdHome], references: [id])
+  teamIdHome  String
+  teamAway    Team         @relation("teamAway", fields: [teamIdAway], references: [id])
+  teamIdAway  String
+  round       Round        @relation(fields: [roundId], references: [id])
+  roundId     String
+  status      MatchStatus  @default(WAITING)
+  date        DateTime
+  createdAt   DateTime
+  updatedAt   DateTime?
+  predictions Prediction[]
+
+  @@unique([teamIdHome, teamIdAway, date], name: "unique_team_match_date")
+}
+
+enum MatchStatus {
+  WAITING
+  IN_PROGRESS
+  DONE
+  CANCELED
+}
+
+enum RoundStatus {
+  WAITING
+  IN_PROGRESS
+  DONE
+  CANCELED
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}

@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  postgres:
+    container_name: bolaoapi-container-postgres
+    image: postgres
+    ports:
+      - ${DATABASE_POSTGRES_PORT}:5432
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+      PGDATA: /data/postgres
+    volumes:
+      - ./data/pg:/data/postgres
+
+  redis:
+    container_name: bolaoapi-container-redis
+    image: redis
+    ports:
+      - ${DATABASE_REDIS_PORT}:6379
+    volumes:
+      - ./data/redis:/data

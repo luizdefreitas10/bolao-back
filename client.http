@@ -1,0 +1,46 @@
+@baseUrl = http://localhost:3333
+@tokenUser = {{auth.response.body.access_token}}
+
+### 
+
+# @name auth
+
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+    "email" : "johndoe@example.com",
+    "password" : "123456"
+}
+
+###
+
+# @name create_user
+POST {{baseUrl}}/accounts
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "email": "johndoe23d2s2@example.com",
+    "password": "123456"
+}
+
+
+###
+
+# @name create_file
+POST {{baseUrl}}/files
+Content-Type: application/json
+Authorization: Bearer {{tokenUser}}
+
+{
+    "name": "9021312933123123423-0931293dsa91221",
+    "type": "mp4",
+    "size": 30202, 
+}
+
+
+
+
+
+
