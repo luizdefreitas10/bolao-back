@@ -5,5 +5,5 @@ export class CreateRoundDto {
   name!: string
 
   @ApiProperty()
-  date!: Date
+  championshipId!: string
 }

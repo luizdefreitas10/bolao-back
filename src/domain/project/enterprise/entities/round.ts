@@ -4,20 +4,20 @@ import { Optional } from '@/core/types/optional'
 import { RoundStatus } from '@prisma/client'
 
 export interface RoundProps {
-  date: Date
   status: RoundStatus
   name: string
   createdAt: Date
   updatedAt?: Date | null
+  championshipId: UniqueEntityID
 }
 
 export class Round extends Entity<RoundProps> {
-  get name() {
-    return this.props.name
+  get championshipId() {
+    return this.props.championshipId
   }
 
-  get date() {
-    return this.props.date
+  get name() {
+    return this.props.name
   }
 
   get status() {

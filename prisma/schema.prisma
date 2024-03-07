@@ -42,13 +42,24 @@ model VerificationCode {
   @@map("verification_codes")
 }
 
-model Round {
-  id        String      @id @default(uuid())
+model Championship {
+  id        String             @id @default(uuid())
   name      String
-  status    RoundStatus @default(WAITING)
+  status    ChampionshipStatus @default(WAITING)
   createdAt DateTime
   updatedAt DateTime?
-  matchs    Match[]
+  Round     Round[]
+}
+
+model Round {
+  id             String       @id @default(uuid())
+  name           String
+  status         RoundStatus  @default(WAITING)
+  createdAt      DateTime
+  updatedAt      DateTime?
+  matchs         Match[]
+  championship   Championship @relation(fields: [championshipId], references: [id])
+  championshipId String
 }
 
 model Team {
@@ -92,6 +103,13 @@ model Match {
 }
 
 enum MatchStatus {
+  WAITING
+  IN_PROGRESS
+  DONE
+  CANCELED
+}
+
+enum ChampionshipStatus {
   WAITING
   IN_PROGRESS
   DONE
