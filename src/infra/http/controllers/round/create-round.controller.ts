@@ -14,7 +14,7 @@ import { Roles } from '@/infra/auth/roles.decorator'
 
 const createRoundBodySchema = z.object({
   name: z.string(),
-  date: z.coerce.date(),
+  championshipId: z.string(),
 })
 
 const bodyValidationPipe = new ZodValidationPipe(createRoundBodySchema)
@@ -28,11 +28,11 @@ export class CreateRoundController {
   @HttpCode(201)
   @Roles(['ADMIN'])
   async handle(@Body(bodyValidationPipe) body: CreateRoundDto) {
-    const { date, name } = body
+    const { championshipId, name } = body
 
     const result = await this.createRound.execute({
       name,
-      date,
+      championshipId,
     })
 
     if (result.isLeft()) {

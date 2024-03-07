@@ -13,6 +13,7 @@ export class PrismaMatchMapper {
         teamIdHome: new UniqueEntityID(raw.teamIdHome),
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
+        date: raw.date,
       },
       new UniqueEntityID(raw.id),
     )
@@ -28,6 +29,7 @@ export class PrismaMatchMapper {
       teamIdHome: match.teamIdHome.toString(),
       createdAt: match.createdAt,
       updatedAt: match.updatedAt,
+      date: match.date,
     }
   }
 }

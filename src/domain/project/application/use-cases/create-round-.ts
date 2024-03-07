@@ -1,15 +1,13 @@
 import { Either, left, right } from '@/core/either'
 import { Injectable } from '@nestjs/common'
-import { UserRepository } from '../repositories/user-repository'
-import { HashComparer } from '../cryptography/hash-comparer'
-import { Encrypter } from '../cryptography/encrypter'
 import { WrongCredentialsError } from './errors/wrong-credentials-error'
 import { Round } from '../../enterprise/entities/round'
 import { RoundRepository } from '../repositories/round-repository-'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
 interface CreateRoundUseCaseRequest {
   name: string
-  date: Date
+  championshipId: string
 }
 
 type CreateRoundUseCaseResponse = Either<
@@ -25,12 +23,12 @@ export class CreateRoundUseCase {
 
   async execute({
     name,
-    date,
+    championshipId,
   }: CreateRoundUseCaseRequest): Promise<CreateRoundUseCaseResponse> {
     const round = Round.create({
       name,
-      date,
       status: 'WAITING',
+      championshipId: new UniqueEntityID(championshipId),
     })
 
     const roundCreated = await this.roundRepository.create(round)
