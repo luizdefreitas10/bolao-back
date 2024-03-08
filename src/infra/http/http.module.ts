@@ -16,6 +16,10 @@ import { SendCodeResetPasswordController } from './controllers/reset-password/se
 import { ResendVerificationCodeController } from './controllers/verification-code/resend-verification-code.controller'
 import { VerificationCodeController } from './controllers/verification-code/verification-code.controler'
 import { EnvService } from '../env/env.service'
+import { CreateTeamController } from './controllers/team/create-team-controller'
+import { CreateTeamUseCase } from '@/domain/project/application/use-cases/create-team'
+import { UpdateTeamController } from './controllers/team/update-team-controller'
+import { UpdateTeamUseCase } from '@/domain/project/application/use-cases/update-team'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, JobsModule],
@@ -26,6 +30,8 @@ import { EnvService } from '../env/env.service'
     SendCodeResetPasswordController,
     ResendVerificationCodeController,
     VerificationCodeController,
+    CreateTeamController,
+    UpdateTeamController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -36,6 +42,8 @@ import { EnvService } from '../env/env.service'
     SendVerificationCodeResetPasswordUseCase,
     VerificationCodeUseCase,
     VerificationCodeResetPasswordUseCase,
+    CreateTeamUseCase,
+    UpdateTeamUseCase,
   ],
 })
 export class HttpModule {}

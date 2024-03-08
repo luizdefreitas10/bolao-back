@@ -18,7 +18,7 @@ export class Team extends Entity<TeamProps> {
   }
 
   get updatedAt() {
-    return this.props.createdAt
+    return this.props.updatedAt
   }
 
   static create(props: Optional<TeamProps, 'createdAt'>, id?: UniqueEntityID) {

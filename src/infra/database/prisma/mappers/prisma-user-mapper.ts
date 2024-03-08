@@ -15,6 +15,7 @@ export class PrismaUserMapper {
         email: raw.email,
         isEmailVerified: raw.isEmailVerified,
         instagram: raw.instagram,
+        role: raw.role,
       },
       new UniqueEntityID(raw.id),
     )

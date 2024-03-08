@@ -48,7 +48,7 @@ model Championship {
   status    ChampionshipStatus @default(WAITING)
   createdAt DateTime
   updatedAt DateTime?
-  Round     Round[]
+  round     Round[]
 }
 
 model Round {

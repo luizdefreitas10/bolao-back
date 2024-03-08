@@ -3,6 +3,7 @@ import {
   Body,
   ConflictException,
   Controller,
+  Get,
   HttpCode,
   Post,
   UsePipes,
@@ -22,7 +23,6 @@ import { SendSmsUseCase } from '@/domain/project/application/use-cases/send-sms'
 import { EnvService } from '@/infra/env/env.service'
 import { FormatUsernameNotValidError } from '@/domain/project/application/use-cases/errors/format-username-not-valid'
 
-// type CreateAccountBodySchema = z.infer<typeof createAccountBodySchema>
 
 @ApiTags('accounts')
 @Controller('/accounts')
