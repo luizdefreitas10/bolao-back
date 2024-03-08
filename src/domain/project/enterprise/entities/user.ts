@@ -1,6 +1,7 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
+import { UserRole } from '@prisma/client'
 
 export interface UserProps {
   fullName: string
@@ -14,11 +15,16 @@ export interface UserProps {
   email?: string | null
   isEmailVerified?: boolean | null
   instagram?: string | null
+  role: UserRole
 }
 
 export class User extends Entity<UserProps> {
   get instagram() {
     return this.props.instagram
+  }
+
+  get role() {
+    return this.props.role
   }
 
   get isVerified() {
@@ -62,7 +68,7 @@ export class User extends Entity<UserProps> {
   }
 
   static create(
-    props: Optional<UserProps, 'createdAt' | 'isVerified'>,
+    props: Optional<UserProps, 'createdAt' | 'isVerified' | 'role'>,
     id?: UniqueEntityID,
   ) {
     const user = new User(
@@ -70,6 +76,7 @@ export class User extends Entity<UserProps> {
         ...props,
         createdAt: props.createdAt ?? new Date(),
         isVerified: props.isVerified ?? false,
+        role: props.role ?? 'USER',
       },
       id,
     )
