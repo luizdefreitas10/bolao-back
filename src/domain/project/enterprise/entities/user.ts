@@ -27,6 +27,10 @@ export class User extends Entity<UserProps> {
     return this.props.instagram
   }
 
+  get role() {
+    return this.props.role
+  }
+
   get isVerified() {
     return this.props.isVerified
   }
@@ -68,7 +72,7 @@ export class User extends Entity<UserProps> {
   }
 
   static create(
-    props: Optional<UserProps, 'createdAt' | 'isVerified'>,
+    props: Optional<UserProps, 'createdAt' | 'isVerified' | 'role'>,
     id?: UniqueEntityID,
   ) {
     const user = new User(
@@ -76,6 +80,7 @@ export class User extends Entity<UserProps> {
         ...props,
         createdAt: props.createdAt ?? new Date(),
         isVerified: props.isVerified ?? false,
+        role: props.role ?? 'USER',
       },
       id,
     )

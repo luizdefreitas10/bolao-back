@@ -18,10 +18,12 @@ import { VerificationCodeController } from './controllers/verification-code/veri
 import { EnvService } from '../env/env.service'
 import { CreateTeamController } from './controllers/team/create-team-controller'
 import { CreateTeamUseCase } from '@/domain/project/application/use-cases/create-team'
+
 import { UpdateTeamController } from './controllers/team/update-team-controller'
 import { UpdateTeamUseCase } from '@/domain/project/application/use-cases/update-team'
 import { RemoveTeamController } from './controllers/team/remove-team-controller'
 import { RemoveTeamUseCase } from '@/domain/project/application/use-cases/remove-team'
+
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, JobsModule],
@@ -33,6 +35,7 @@ import { RemoveTeamUseCase } from '@/domain/project/application/use-cases/remove
     ResendVerificationCodeController,
     VerificationCodeController,
     CreateTeamController,
+
     UpdateTeamController,
     RemoveTeamController,
   ],
