@@ -31,7 +31,6 @@ export class AuthenticateController {
     type: AuthSuccessResponseDto,
   })
   @Post()
-  // @UsePipes(new ZodValidationPipe(authenticateBodySchema))
   async handle(@Body(bodyValidationPipe) body: AuthDto) {
     const { userName, password } = body
 
@@ -50,6 +49,8 @@ export class AuthenticateController {
           throw new BadRequestException(error.message)
       }
     }
+
+    console.log(result.value)
 
     const { accessToken, phone, userId } = result.value
     if (accessToken) {

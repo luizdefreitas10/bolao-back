@@ -9,6 +9,7 @@ export class PrismaTeamMapper {
         name: raw.name,
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
+        status: raw.status,
       },
       new UniqueEntityID(raw.id),
     )

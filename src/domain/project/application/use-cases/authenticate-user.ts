@@ -36,6 +36,7 @@ export class AuthenticateUserUseCase {
     if (!user || !user.password) {
       return left(new WrongCredentialsError())
     }
+
     // if (!user.isVerified) {
     //   return left(new UserNotConfirmCodeError())
     // }
@@ -55,6 +56,9 @@ export class AuthenticateUserUseCase {
         userId: user.id.toString(),
       })
     }
+
+    console.log(user.role)
+    console.log(user)
 
     const accessToken = await this.encrypter.encrypt({
       sub: user.id.toString(),

@@ -19,6 +19,10 @@ export interface UserProps {
 }
 
 export class User extends Entity<UserProps> {
+  get role() {
+    return this.props.role
+  }
+
   get instagram() {
     return this.props.instagram
   }

@@ -19,6 +19,12 @@ import { EnvService } from '../env/env.service'
 import { CreateTeamController } from './controllers/team/create-team-controller'
 import { CreateTeamUseCase } from '@/domain/project/application/use-cases/create-team'
 
+import { UpdateTeamController } from './controllers/team/update-team-controller'
+import { UpdateTeamUseCase } from '@/domain/project/application/use-cases/update-team'
+import { RemoveTeamController } from './controllers/team/remove-team-controller'
+import { RemoveTeamUseCase } from '@/domain/project/application/use-cases/remove-team'
+
+
 @Module({
   imports: [DatabaseModule, CryptographyModule, JobsModule],
   controllers: [
@@ -29,6 +35,9 @@ import { CreateTeamUseCase } from '@/domain/project/application/use-cases/create
     ResendVerificationCodeController,
     VerificationCodeController,
     CreateTeamController,
+
+    UpdateTeamController,
+    RemoveTeamController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -40,6 +49,8 @@ import { CreateTeamUseCase } from '@/domain/project/application/use-cases/create
     VerificationCodeUseCase,
     VerificationCodeResetPasswordUseCase,
     CreateTeamUseCase,
+    UpdateTeamUseCase,
+    RemoveTeamUseCase,
   ],
 })
 export class HttpModule {}
