@@ -16,6 +16,8 @@ import { SendCodeResetPasswordController } from './controllers/reset-password/se
 import { ResendVerificationCodeController } from './controllers/verification-code/resend-verification-code.controller'
 import { VerificationCodeController } from './controllers/verification-code/verification-code.controler'
 import { EnvService } from '../env/env.service'
+import { CreateTeamController } from './controllers/team/create-team-controller'
+import { CreateTeamUseCase } from '@/domain/project/application/use-cases/create-team'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, JobsModule],
@@ -26,6 +28,7 @@ import { EnvService } from '../env/env.service'
     SendCodeResetPasswordController,
     ResendVerificationCodeController,
     VerificationCodeController,
+    CreateTeamController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -36,6 +39,7 @@ import { EnvService } from '../env/env.service'
     SendVerificationCodeResetPasswordUseCase,
     VerificationCodeUseCase,
     VerificationCodeResetPasswordUseCase,
+    CreateTeamUseCase,
   ],
 })
 export class HttpModule {}
