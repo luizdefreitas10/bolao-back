@@ -1,6 +1,7 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
+import { UserRole } from '@prisma/client'
 
 export interface UserProps {
   fullName: string
@@ -14,7 +15,7 @@ export interface UserProps {
   email?: string | null
   isEmailVerified?: boolean | null
   instagram?: string | null
-  role?: string
+  role: UserRole
 }
 
 export class User extends Entity<UserProps> {
