@@ -29,9 +29,12 @@ export class CreateTeamUseCase {
     }
     const team = Team.create({
       name,
+      status: 'ACTIVE',
     })
 
     const teamCreated = await this.teamRepository.create(team)
+
+    console.log(teamCreated.status)
 
     return right({
       team: teamCreated,

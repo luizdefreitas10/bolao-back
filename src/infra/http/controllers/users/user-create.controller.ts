@@ -23,7 +23,6 @@ import { SendSmsUseCase } from '@/domain/project/application/use-cases/send-sms'
 import { EnvService } from '@/infra/env/env.service'
 import { FormatUsernameNotValidError } from '@/domain/project/application/use-cases/errors/format-username-not-valid'
 
-
 @ApiTags('accounts')
 @Controller('/accounts')
 @Public()

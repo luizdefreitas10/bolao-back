@@ -63,12 +63,13 @@ model Round {
 }
 
 model Team {
-  id         String    @id @default(uuid())
-  name       String    @unique
+  id         String     @id @default(uuid())
+  name       String     @unique
   createdAt  DateTime
   updatedAt  DateTime?
-  matchsHome Match[]   @relation("teamHome")
-  matchsAway Match[]   @relation("teamAway")
+  matchsHome Match[]    @relation("teamHome")
+  matchsAway Match[]    @relation("teamAway")
+  status     TeamStatus @default(ACTIVE)
 }
 
 model Prediction {
@@ -126,4 +127,9 @@ enum RoundStatus {
 enum UserRole {
   ADMIN
   USER
+}
+
+enum TeamStatus {
+  ACTIVE
+  INACTIVE
 }

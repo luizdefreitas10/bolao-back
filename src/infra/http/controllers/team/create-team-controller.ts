@@ -27,7 +27,7 @@ export class CreateTeamController {
 
   @Post()
   @HttpCode(201)
-  // @Roles(['ADMIN'])
+  @Roles(['ADMIN'])
   async handle(@Body(bodyValidationPipe) body: CreateTeamDto) {
     const { name } = body
 

@@ -6,6 +6,7 @@ export interface TeamProps {
   name: string
   createdAt: Date
   updatedAt?: Date | null
+  status: string
 }
 
 export class Team extends Entity<TeamProps> {
@@ -19,6 +20,10 @@ export class Team extends Entity<TeamProps> {
 
   get updatedAt() {
     return this.props.updatedAt
+  }
+
+  get status() {
+    return this.props.status
   }
 
   static create(props: Optional<TeamProps, 'createdAt'>, id?: UniqueEntityID) {

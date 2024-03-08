@@ -9,6 +9,17 @@ import { format } from 'date-fns'
 export class PrismaTeamRepository implements TeamRepository {
   constructor(private prisma: PrismaService) {}
 
+  async remove(teamName: string): Promise<void> {
+    await this.prisma.team.update({
+      where: {
+        name: teamName,
+      },
+      data: {
+        status: 'INACTIVE',
+      },
+    })
+  }
+
   async update(teamName: string, newTeamName: string): Promise<Team | null> {
     const teamExists = await this.prisma.team.findUnique({
       where: {
@@ -19,8 +30,6 @@ export class PrismaTeamRepository implements TeamRepository {
     if (!teamExists) {
       return null
     }
-
-    // const updatedAt = format(new Date(), 'dd/MM/yyyy - HH:mm:ss')
 
     const newTeam = await this.prisma.team.update({
       where: {

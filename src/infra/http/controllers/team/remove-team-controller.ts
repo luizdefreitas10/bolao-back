@@ -4,37 +4,35 @@ import {
   Controller,
   HttpCode,
   ConflictException,
-  Patch,
+  Delete,
 } from '@nestjs/common'
 import { z } from 'zod'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { ApiTags } from '@nestjs/swagger'
-import { Roles } from '@/infra/auth/roles.decorator'
-import { UpdateTeamUseCase } from '@/domain/project/application/use-cases/update-team'
-import { UpdateTeamDto } from './dto/update-team-dto'
 import { TeamNotFoundError } from '@/domain/project/application/use-cases/errors/team-not-found'
+import { RemoveTeamUseCase } from '@/domain/project/application/use-cases/remove-team'
+import { RemoveTeamDto } from './dto/remove-team-dto'
+import { Roles } from '@/infra/auth/roles.decorator'
 
-const updateTeamBodySchema = z.object({
+const removeTeamBodySchema = z.object({
   teamName: z.string(),
-  newTeamName: z.string(),
 })
 
-const bodyValidationPipe = new ZodValidationPipe(updateTeamBodySchema)
+const bodyValidationPipe = new ZodValidationPipe(removeTeamBodySchema)
 
 @ApiTags('team')
 @Controller('/team')
-export class UpdateTeamController {
-  constructor(private updateTeamUseCase: UpdateTeamUseCase) {}
+export class RemoveTeamController {
+  constructor(private removeTeamUseCase: RemoveTeamUseCase) {}
 
-  @Patch()
+  @Delete()
   @HttpCode(204)
   @Roles(['ADMIN'])
-  async handle(@Body(bodyValidationPipe) body: UpdateTeamDto) {
-    const { teamName, newTeamName } = body
+  async handle(@Body(bodyValidationPipe) body: RemoveTeamDto) {
+    const { teamName } = body
 
-    const result = await this.updateTeamUseCase.execute({
+    const result = await this.removeTeamUseCase.execute({
       teamName,
-      newTeamName,
     })
 
     if (result.isLeft()) {
