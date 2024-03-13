@@ -25,7 +25,7 @@ import { RemoveTeamController } from './controllers/team/remove-team-controller'
 import { RemoveTeamUseCase } from '@/domain/project/application/use-cases/remove-team'
 import { UpdateMatchStatusController } from './controllers/match/update-match-status.controller'
 import { UpdateMatchDateController } from './controllers/match/update-match-date.controller'
-import { UpdateRoundNameController } from './controllers/round/create-round-name.controller'
+import { UpdateRoundNameController } from './controllers/round/update-round-name.controller'
 import { UpdateRoundStatusController } from './controllers/round/update-round-status.controller'
 import { UpdateMatchDateUseCase } from '@/domain/project/application/use-cases/update-match-date'
 import { UpdateMatchStatusUseCase } from '@/domain/project/application/use-cases/update-match-status'
@@ -35,6 +35,10 @@ import { RemoveRoundUseCase } from '@/domain/project/application/use-cases/remov
 import { RemoveRoundController } from './controllers/round/remove-round.controller'
 import { RemoveMatchController } from './controllers/match/remove-match.controller'
 import { RemoveMatchUseCase } from '@/domain/project/application/use-cases/remove-match'
+import { CreateRoundController } from './controllers/round/create-round.controller'
+import { CreateRoundUseCase } from '@/domain/project/application/use-cases/create-round-'
+import { CreatePredictionUseCase } from '@/domain/project/application/use-cases/create-prediction'
+import { CreatePredictionController } from './controllers/prediction/create-prediction.controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, JobsModule],
@@ -54,6 +58,8 @@ import { RemoveMatchUseCase } from '@/domain/project/application/use-cases/remov
     RemoveTeamController,
     RemoveRoundController,
     RemoveMatchController,
+    CreateRoundController,
+    CreatePredictionController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -73,6 +79,8 @@ import { RemoveMatchUseCase } from '@/domain/project/application/use-cases/remov
     UpdateRoundStatusUseCase,
     RemoveRoundUseCase,
     RemoveMatchUseCase,
+    CreateRoundUseCase,
+    CreatePredictionUseCase,
   ],
 })
 export class HttpModule {}
