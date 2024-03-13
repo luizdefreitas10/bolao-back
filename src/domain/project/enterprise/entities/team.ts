@@ -14,6 +14,10 @@ export class Team extends Entity<TeamProps> {
     return this.props.name
   }
 
+  set name(name) {
+    this.props.name = name
+  }
+
   get createdAt() {
     return this.props.createdAt
   }
@@ -24,6 +28,10 @@ export class Team extends Entity<TeamProps> {
 
   get status() {
     return this.props.status
+  }
+
+  set status(status) {
+    this.props.status = status
   }
 
   static create(props: Optional<TeamProps, 'createdAt'>, id?: UniqueEntityID) {

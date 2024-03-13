@@ -31,6 +31,10 @@ export class User extends Entity<UserProps> {
     return this.props.isVerified
   }
 
+  set isVerified(value: boolean) {
+    this.props.isVerified = value
+  }
+
   get isEmailVerified() {
     return this.props.isEmailVerified
   }

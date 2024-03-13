@@ -12,10 +12,12 @@ export function makeUser(
 ) {
   const user = User.create(
     {
-      name: faker.person.fullName(),
+      fullName: faker.person.fullName(),
       email: faker.internet.email(),
+      userName: faker.internet.userName(),
       password: faker.internet.password(),
       ...override,
+      phone: faker.phone.number(),
     },
     id,
   )

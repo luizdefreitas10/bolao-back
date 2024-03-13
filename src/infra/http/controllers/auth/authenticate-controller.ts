@@ -50,8 +50,6 @@ export class AuthenticateController {
       }
     }
 
-    console.log(result.value)
-
     const { accessToken, phone, userId } = result.value
     if (accessToken) {
       return {

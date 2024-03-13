@@ -37,10 +37,6 @@ export class AuthenticateUserUseCase {
       return left(new WrongCredentialsError())
     }
 
-    // if (!user.isVerified) {
-    //   return left(new UserNotConfirmCodeError())
-    // }
-
     const isPasswordValid = await this.hashComparer.compare(
       password,
       user.password,
@@ -56,9 +52,6 @@ export class AuthenticateUserUseCase {
         userId: user.id.toString(),
       })
     }
-
-    console.log(user.role)
-    console.log(user)
 
     const accessToken = await this.encrypter.encrypt({
       sub: user.id.toString(),
