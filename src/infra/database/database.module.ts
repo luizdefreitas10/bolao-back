@@ -7,7 +7,7 @@ import { VerificationCodeRepository } from '@/domain/project/application/reposit
 import { PrismaVerificationCodeRepository } from './prisma/repositories/prisma-verification-code-repository'
 import { TeamRepository } from '@/domain/project/application/repositories/team-repository'
 import { PrismaTeamRepository } from './prisma/repositories/prisma-teams-repository'
-import { RoundRepository } from '@/domain/project/application/repositories/round-repository-'
+import { RoundRepository } from '@/domain/project/application/repositories/round-repository'
 import { PrismaRoundRepository } from './prisma/repositories/prisma-round-repository'
 import { MatchRepository } from '@/domain/project/application/repositories/match-repository'
 import { PrismaMatchRepository } from './prisma/repositories/prisma-matchs-repository'

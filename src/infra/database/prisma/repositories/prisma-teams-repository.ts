@@ -3,7 +3,6 @@ import { PrismaService } from '../prisma.service'
 import { TeamRepository } from '@/domain/project/application/repositories/team-repository'
 import { PrismaTeamMapper } from '../mappers/prisma-team-mapper'
 import { Team } from '@/domain/project/enterprise/entities/team'
-import { format } from 'date-fns'
 
 @Injectable()
 export class PrismaTeamRepository implements TeamRepository {

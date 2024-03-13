@@ -2,7 +2,7 @@ import { Either, left, right } from '@/core/either'
 import { Injectable } from '@nestjs/common'
 import { WrongCredentialsError } from './errors/wrong-credentials-error'
 import { Round } from '../../enterprise/entities/round'
-import { RoundRepository } from '../repositories/round-repository-'
+import { RoundRepository } from '../repositories/round-repository'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
 interface CreateRoundUseCaseRequest {
