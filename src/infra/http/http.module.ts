@@ -23,7 +23,18 @@ import { UpdateTeamController } from './controllers/team/update-team-controller'
 import { UpdateTeamUseCase } from '@/domain/project/application/use-cases/update-team'
 import { RemoveTeamController } from './controllers/team/remove-team-controller'
 import { RemoveTeamUseCase } from '@/domain/project/application/use-cases/remove-team'
-
+import { UpdateMatchStatusController } from './controllers/match/update-match-status.controller'
+import { UpdateMatchDateController } from './controllers/match/update-match-date.controller'
+import { UpdateRoundNameController } from './controllers/round/create-round-name.controller'
+import { UpdateRoundStatusController } from './controllers/round/update-round-status.controller'
+import { UpdateMatchDateUseCase } from '@/domain/project/application/use-cases/update-match-date'
+import { UpdateMatchStatusUseCase } from '@/domain/project/application/use-cases/update-match-status'
+import { UpdateRoundNameUseCase } from '@/domain/project/application/use-cases/update-round-name'
+import { UpdateRoundStatusUseCase } from '@/domain/project/application/use-cases/update-round-status'
+import { RemoveRoundUseCase } from '@/domain/project/application/use-cases/remove-round'
+import { RemoveRoundController } from './controllers/round/remove-round.controller'
+import { RemoveMatchController } from './controllers/match/remove-match.controller'
+import { RemoveMatchUseCase } from '@/domain/project/application/use-cases/remove-match'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, JobsModule],
@@ -35,9 +46,14 @@ import { RemoveTeamUseCase } from '@/domain/project/application/use-cases/remove
     ResendVerificationCodeController,
     VerificationCodeController,
     CreateTeamController,
-
+    UpdateMatchStatusController,
+    UpdateMatchDateController,
+    UpdateRoundNameController,
+    UpdateRoundStatusController,
     UpdateTeamController,
     RemoveTeamController,
+    RemoveRoundController,
+    RemoveMatchController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -51,6 +67,12 @@ import { RemoveTeamUseCase } from '@/domain/project/application/use-cases/remove
     CreateTeamUseCase,
     UpdateTeamUseCase,
     RemoveTeamUseCase,
+    UpdateMatchDateUseCase,
+    UpdateMatchStatusUseCase,
+    UpdateRoundNameUseCase,
+    UpdateRoundStatusUseCase,
+    RemoveRoundUseCase,
+    RemoveMatchUseCase,
   ],
 })
 export class HttpModule {}
