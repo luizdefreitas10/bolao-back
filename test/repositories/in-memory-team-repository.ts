@@ -18,6 +18,7 @@ export class InMemoryTeamRepository implements TeamRepository {
 
     return team
   }
+
   async findByName(name: string): Promise<Team | null> {
     const team = this.items.find((item) => item.name === name)
 
@@ -42,12 +43,12 @@ export class InMemoryTeamRepository implements TeamRepository {
   }
 
   async remove(teamName: string): Promise<void> {
-    const teamIndex = this.items.findIndex((item) => item.name === teamName);
+    const team = this.items.find((item) => item.name === teamName);
 
-    if (teamIndex === -1) {
+    if (!team) {
       throw new Error("Team not found");
     }
 
-    this.items.splice(teamIndex, 1);
+    team.status = 'INACTIVE';
   }
 }

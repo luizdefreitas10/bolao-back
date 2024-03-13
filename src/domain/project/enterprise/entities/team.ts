@@ -30,6 +30,10 @@ export class Team extends Entity<TeamProps> {
     return this.props.status
   }
 
+  set status(status) {
+    this.props.status = status
+  }
+
   static create(props: Optional<TeamProps, 'createdAt'>, id?: UniqueEntityID) {
     const team = new Team(
       {

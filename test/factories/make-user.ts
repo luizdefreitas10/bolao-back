@@ -25,10 +25,6 @@ export function makeUser(
   return user
 }
 
-export function signUserAsVerified(user: User) {
-  user.isVerified = true
-}
-
 @Injectable()
 export class UserFactory {
   constructor(private prisma: PrismaService) {}
