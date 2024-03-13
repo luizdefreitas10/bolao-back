@@ -108,6 +108,7 @@ enum MatchStatus {
   IN_PROGRESS
   DONE
   CANCELED
+  INACTIVE
 }
 
 enum ChampionshipStatus {
@@ -115,6 +116,7 @@ enum ChampionshipStatus {
   IN_PROGRESS
   DONE
   CANCELED
+  INACTIVE
 }
 
 enum RoundStatus {
@@ -122,6 +124,7 @@ enum RoundStatus {
   IN_PROGRESS
   DONE
   CANCELED
+  INACTIVE
 }
 
 enum UserRole {
