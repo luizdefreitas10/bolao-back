@@ -14,6 +14,10 @@ export class Team extends Entity<TeamProps> {
     return this.props.name
   }
 
+  set name(name) {
+    this.props.name = name
+  }
+
   get createdAt() {
     return this.props.createdAt
   }
