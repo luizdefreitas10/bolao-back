@@ -3,10 +3,33 @@ import { PrismaService } from '../prisma.service'
 import { MatchRepository } from '@/domain/project/application/repositories/match-repository'
 import { Match } from '@/domain/project/enterprise/entities/match'
 import { PrismaMatchMapper } from '../mappers/prisma-match-mapper'
+import { MatchStatus } from '@prisma/client'
 
 @Injectable()
 export class PrismaMatchRepository implements MatchRepository {
   constructor(private prisma: PrismaService) {}
+  async updateMatchDate(matchId: string, date: Date): Promise<void> {
+    await this.prisma.match.update({
+      where: {
+        id: matchId,
+      },
+      data: {
+        date,
+      },
+    })
+  }
+
+  async updateMatchStatus(matchId: string, status: MatchStatus): Promise<void> {
+    await this.prisma.match.update({
+      where: {
+        id: matchId,
+      },
+      data: {
+        status,
+      },
+    })
+  }
+
   async updateScore(
     matchId: string,
     scoreHome: number,

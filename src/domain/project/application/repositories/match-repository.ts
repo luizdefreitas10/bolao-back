@@ -1,3 +1,4 @@
+import { MatchStatus } from '@prisma/client'
 import { Match } from '../../enterprise/entities/match'
 
 export abstract class MatchRepository {
@@ -13,5 +14,11 @@ export abstract class MatchRepository {
     matchId: string,
     scoreHome: number,
     scoreAway: number,
+  ): Promise<void>
+
+  abstract updateMatchDate(matchId: string, date: Date): Promise<void>
+  abstract updateMatchStatus(
+    matchId: string,
+    status: MatchStatus,
   ): Promise<void>
 }
