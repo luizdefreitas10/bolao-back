@@ -24,7 +24,7 @@ const bodyValidationPipe = new ZodValidationPipe(removeRoundNameBodySchema)
 
 @ApiTags('round')
 @Controller('/round')
-export class RemoveRoundNameController {
+export class RemoveRoundController {
   constructor(private removeRound: RemoveRoundUseCase) {}
 
   @Delete()
