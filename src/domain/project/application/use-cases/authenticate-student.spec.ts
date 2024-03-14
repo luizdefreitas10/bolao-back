@@ -1,4 +1,3 @@
-
 import { FakeHasher } from 'test/cryptography/fake-hasher'
 import { FakeEncrypter } from 'test/cryptography/fake-encrypter'
 import { AuthenticateUserUseCase } from './authenticate-user'
@@ -28,7 +27,7 @@ describe('Authenticate User', () => {
     const user = makeUser({
       userName: 'johndoe',
       password: await fakeHasher.hash('123456'),
-      isVerified: true
+      isVerified: true,
     })
 
     inMemoryUserRepository.items.push(user)
