@@ -39,6 +39,16 @@ import { CreateRoundController } from './controllers/round/create-round.controll
 import { CreateRoundUseCase } from '@/domain/project/application/use-cases/create-round-'
 import { CreatePredictionUseCase } from '@/domain/project/application/use-cases/create-prediction'
 import { CreatePredictionController } from './controllers/prediction/create-prediction.controller'
+import { CreateChampionshipUseCase } from '@/domain/project/application/use-cases/create-championship'
+import { CreateChampionshipController } from './controllers/championship/create-championship-controller'
+import { CreateMatchController } from './controllers/match/create-match.controller'
+import { CreateMatchUseCase } from '@/domain/project/application/use-cases/create-match'
+import { UpdateChampionshipNameUseCase } from '@/domain/project/application/use-cases/update-championship-name'
+import { UpdateChampionshipNameController } from './controllers/championship/update-championship-name-controller'
+import { UpdateChampionshipStatusUseCase } from '@/domain/project/application/use-cases/update-championship-status'
+import { UpdateChampionshipStatusController } from './controllers/championship/update-championship-status-controller'
+import { RemoveChampionshipUseCase } from '@/domain/project/application/use-cases/remove-championship'
+import { RemoveChampionshipController } from './controllers/championship/remove-championship-controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, JobsModule],
@@ -50,6 +60,7 @@ import { CreatePredictionController } from './controllers/prediction/create-pred
     ResendVerificationCodeController,
     VerificationCodeController,
     CreateTeamController,
+    CreateMatchController,
     UpdateMatchStatusController,
     UpdateMatchDateController,
     UpdateRoundNameController,
@@ -60,6 +71,10 @@ import { CreatePredictionController } from './controllers/prediction/create-pred
     RemoveMatchController,
     CreateRoundController,
     CreatePredictionController,
+    CreateChampionshipController,
+    UpdateChampionshipNameController,
+    UpdateChampionshipStatusController,
+    RemoveChampionshipController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -81,6 +96,11 @@ import { CreatePredictionController } from './controllers/prediction/create-pred
     RemoveMatchUseCase,
     CreateRoundUseCase,
     CreatePredictionUseCase,
+    CreateChampionshipUseCase,
+    CreateMatchUseCase,
+    UpdateChampionshipNameUseCase,
+    UpdateChampionshipStatusUseCase,
+    RemoveChampionshipUseCase,
   ],
 })
 export class HttpModule {}

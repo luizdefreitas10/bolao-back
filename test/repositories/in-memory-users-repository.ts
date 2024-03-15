@@ -1,41 +1,41 @@
-import { DomainEvents } from "@/core/events/domain-events";
-import { PaginationParams } from "@/core/repositories/pagination-params";
-import { UserRepository } from "@/domain/project/application/repositories/user-repository";
-import { User } from "@/domain/project/enterprise/entities/user";
-import { use } from "passport";
+import { DomainEvents } from '@/core/events/domain-events'
+import { PaginationParams } from '@/core/repositories/pagination-params'
+import { UserRepository } from '@/domain/project/application/repositories/user-repository'
+import { User } from '@/domain/project/enterprise/entities/user'
+import { use } from 'passport'
 
 export class InMemoryUsersRepository implements UserRepository {
-  public items: User[] = [];
+  public items: User[] = []
 
   async create(user: User): Promise<User> {
-    this.items.push(user);
+    this.items.push(user)
 
-    DomainEvents.dispatchEventsForAggregate(user.id);
-    return user;
+    DomainEvents.dispatchEventsForAggregate(user.id)
+    return user
   }
 
   async findByUsername(userName: string): Promise<User | null> {
-    const user = this.items.find((item) => item.userName === userName);
+    const user = this.items.find((item) => item.userName === userName)
 
     if (!user) {
-      return null;
+      return null
     }
 
-    return user;
+    return user
   }
 
   async findByPhone(phone: string): Promise<User | null> {
-    const user = this.items.find((item) => item.phone === phone);
+    const user = this.items.find((item) => item.phone === phone)
 
     if (!user) {
-      return null;
+      return null
     }
 
-    return user;
+    return user
   }
 
   findById(userId: string): Promise<User | null> {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.')
   }
 
   async updateVerified(userId: string): Promise<User> {
@@ -55,17 +55,17 @@ export class InMemoryUsersRepository implements UserRepository {
   }
 
   updatePassword(userId: string, newPassword: string): Promise<User> {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.')
   }
 
   findByUserAndlastPasswordModification(
     id: string,
-    date: Date
+    date: Date,
   ): Promise<User | null> {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.')
   }
 
   findAll({ page, size }: PaginationParams): Promise<User[]> {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.')
   }
 }
