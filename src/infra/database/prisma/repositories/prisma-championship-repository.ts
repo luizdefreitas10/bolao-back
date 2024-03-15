@@ -85,8 +85,18 @@ export class PrismaChampionshipRepository implements ChampionshipRepository {
 
  
 
-  removeChampionship(championship: Championship): Promise<void> {
-    throw new Error("Method not implemented.");
-  }
+  async removeChampionship(championship: Championship): Promise<void> {
 
+    const data = PrismaChampionshipMapper.toPrisma(championship)
+    
+    await this.prisma.championship.update({
+      where: {
+        id: data.id,
+      },
+      data: {
+        status: 'INACTIVE',
+        updatedAt: new Date(),
+      },
+    })
+  }
 }

@@ -47,6 +47,8 @@ import { UpdateChampionshipNameUseCase } from '@/domain/project/application/use-
 import { UpdateChampionshipNameController } from './controllers/championship/update-championship-name-controller'
 import { UpdateChampionshipStatusUseCase } from '@/domain/project/application/use-cases/update-championship-status'
 import { UpdateChampionshipStatusController } from './controllers/championship/update-championship-status-controller'
+import { RemoveChampionshipUseCase } from '@/domain/project/application/use-cases/remove-championship'
+import { RemoveChampionshipController } from './controllers/championship/remove-championship-controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, JobsModule],
@@ -72,6 +74,7 @@ import { UpdateChampionshipStatusController } from './controllers/championship/u
     CreateChampionshipController,
     UpdateChampionshipNameController,
     UpdateChampionshipStatusController,
+    RemoveChampionshipController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -97,6 +100,7 @@ import { UpdateChampionshipStatusController } from './controllers/championship/u
     CreateMatchUseCase,
     UpdateChampionshipNameUseCase,
     UpdateChampionshipStatusUseCase,
+    RemoveChampionshipUseCase,
   ],
 })
 export class HttpModule {}
