@@ -13,11 +13,12 @@ import { MatchRepository } from '@/domain/project/application/repositories/match
 import { PrismaMatchRepository } from './prisma/repositories/prisma-matchs-repository'
 import { PredictionRepository } from '@/domain/project/application/repositories/prediction-repository'
 import { PrismaPredictionRepository } from './prisma/repositories/prisma-predictions-repository'
+import { ChampionshipRepository } from '@/domain/project/application/repositories/championship-repository'
+import { PrismaChampionshipRepository } from './prisma/repositories/prisma-championship-repository'
 
 @Module({
   providers: [
     PrismaService,
-
     {
       provide: UserRepository,
       useClass: PrismaUsersRepository,
@@ -42,6 +43,10 @@ import { PrismaPredictionRepository } from './prisma/repositories/prisma-predict
       provide: PredictionRepository,
       useClass: PrismaPredictionRepository,
     },
+    {
+      provide: ChampionshipRepository,
+      useClass: PrismaChampionshipRepository,
+    },
   ],
   exports: [
     PrismaService,
@@ -51,6 +56,7 @@ import { PrismaPredictionRepository } from './prisma/repositories/prisma-predict
     MatchRepository,
     TeamRepository,
     RoundRepository,
+    ChampionshipRepository,
   ],
 })
 export class DatabaseModule {}

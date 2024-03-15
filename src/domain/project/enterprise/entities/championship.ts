@@ -9,7 +9,7 @@ export interface ChampionshipProps {
   status: ChampionshipStatus
   createdAt: Date
   updatedAt?: Date | null
-  rounds: Round[]
+  rounds?: Round[]
 }
 
 export class Championship extends Entity<ChampionshipProps> {
