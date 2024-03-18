@@ -6,6 +6,10 @@ import { isPast } from 'date-fns'
 import { MatchPastError } from './errors/match-past-error'
 import { MatchAlreadyExistError } from './errors/match-already-exists'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { TeamRepository } from '../repositories/team-repository'
+import { RoundRepository } from '../repositories/round-repository'
+import { TeamNotFoundError } from './errors/team-not-found'
+import { RoundNotFoundError } from './errors/round-not-found-error'
 
 interface CreateMatchUseCaseRequest {
   teamIdHome: string
@@ -15,7 +19,10 @@ interface CreateMatchUseCaseRequest {
 }
 
 type CreateMatchUseCaseResponse = Either<
-  MatchPastError | MatchAlreadyExistError,
+  | MatchPastError
+  | MatchAlreadyExistError
+  | RoundNotFoundError
+  | TeamNotFoundError,
   {
     match: Match
   }
@@ -23,7 +30,11 @@ type CreateMatchUseCaseResponse = Either<
 
 @Injectable()
 export class CreateMatchUseCase {
-  constructor(private matchRepository: MatchRepository) {}
+  constructor(
+    private matchRepository: MatchRepository,
+    private teamRepository: TeamRepository,
+    private roundRepository: RoundRepository,
+  ) {}
 
   async execute({
     teamIdHome,
@@ -33,6 +44,17 @@ export class CreateMatchUseCase {
   }: CreateMatchUseCaseRequest): Promise<CreateMatchUseCaseResponse> {
     if (isPast(date)) {
       return left(new MatchPastError())
+    }
+
+    const teamHomeAlreadyExist = await this.teamRepository.findById(teamIdHome)
+    const teamAwayAlreadyExist = await this.teamRepository.findById(teamIdAway)
+    if (!teamHomeAlreadyExist || !teamAwayAlreadyExist) {
+      return left(new TeamNotFoundError())
+    }
+
+    const roundAlreadyExist = await this.roundRepository.findById(roundId)
+    if (!roundAlreadyExist) {
+      return left(new RoundNotFoundError())
     }
 
     const matchAlreadyExist =

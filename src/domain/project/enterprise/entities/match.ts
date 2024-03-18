@@ -1,8 +1,7 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
-
-type MatchStatus = 'WAITING' | 'IN_PROGRESS' | 'DONE' | 'CANCELED'
+import { MatchStatus } from '@prisma/client'
 
 export interface MatchProps {
   scoreHome: number
@@ -21,12 +20,28 @@ export class Match extends Entity<MatchProps> {
     return this.props.status
   }
 
+  set status(status: MatchStatus) {
+    this.props.status = status
+  }
+
+  set date(dateMatch: Date) {
+    this.props.date = dateMatch
+  }
+
   get date() {
     return this.props.date
   }
 
+  set scoreHome(score: number) {
+    this.props.scoreHome = score
+  }
+
   get scoreHome() {
     return this.props.scoreHome
+  }
+
+  set scoreAway(score: number) {
+    this.props.scoreAway = score
   }
 
   get scoreAway() {
