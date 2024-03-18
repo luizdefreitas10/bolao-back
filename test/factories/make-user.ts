@@ -24,6 +24,25 @@ export function makeUser(
 
   return user
 }
+export function makeUserAdmin(
+  override: Partial<UserProps> = {},
+  id?: UniqueEntityID,
+) {
+  const user = User.create(
+    {
+      fullName: faker.person.fullName(),
+      email: faker.internet.email(),
+      userName: faker.internet.userName(),
+      password: faker.internet.password(),
+      ...override,
+      phone: faker.phone.number(),
+      role: 'ADMIN',
+    },
+    id,
+  )
+
+  return user
+}
 
 @Injectable()
 export class UserFactory {
@@ -31,6 +50,16 @@ export class UserFactory {
 
   async makePrismaUser(data: Partial<UserProps> = {}): Promise<User> {
     const user = makeUser(data)
+
+    await this.prisma.user.create({
+      data: PrismaUserMapper.toPrisma(user),
+    })
+
+    return user
+  }
+
+  async makePrismaUserAdmin(data: Partial<UserProps> = {}): Promise<User> {
+    const user = makeUserAdmin(data)
 
     await this.prisma.user.create({
       data: PrismaUserMapper.toPrisma(user),

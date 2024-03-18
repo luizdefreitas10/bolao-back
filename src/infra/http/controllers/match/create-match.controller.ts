@@ -14,6 +14,8 @@ import { CreateMatchUseCase } from '@/domain/project/application/use-cases/creat
 import { MatchPastError } from '@/domain/project/application/use-cases/errors/match-past-error'
 import { MatchAlreadyExistError } from '@/domain/project/application/use-cases/errors/match-already-exists'
 import { Roles } from '@/infra/auth/roles.decorator'
+import { TeamNotFoundError } from '@/domain/project/application/use-cases/errors/team-not-found'
+import { RoundNotFoundError } from '@/domain/project/application/use-cases/errors/round-not-found-error'
 
 const createMatchBodySchema = z.object({
   teamIdHome: z.string(),
@@ -33,7 +35,8 @@ export class CreateMatchController {
   @HttpCode(201)
   @Roles(['ADMIN'])
   async handle(@Body(bodyValidationPipe) body: CreateMatchDto) {
-    const { date, roundId, teamIdAway, teamIdHome } = body
+    console.log(body)
+    const { teamIdHome, teamIdAway, roundId, date } = body
 
     const result = await this.createMatch.execute({
       teamIdHome,
@@ -49,6 +52,10 @@ export class CreateMatchController {
           throw new BadRequestException(error.message)
         case MatchAlreadyExistError:
           throw new ConflictException(error.message)
+        case TeamNotFoundError:
+          throw new BadRequestException(error.message)
+        case RoundNotFoundError:
+          throw new BadRequestException(error.message)
         default:
           throw new BadRequestException(error.message)
       }

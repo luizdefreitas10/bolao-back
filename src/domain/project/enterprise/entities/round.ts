@@ -12,8 +12,16 @@ export interface RoundProps {
 }
 
 export class Round extends Entity<RoundProps> {
+  set championshipId(championshipId: UniqueEntityID) {
+    this.props.championshipId = championshipId
+  }
+
   get championshipId() {
     return this.props.championshipId
+  }
+
+  set name(name: string) {
+    this.name = name
   }
 
   get name() {
@@ -22,6 +30,10 @@ export class Round extends Entity<RoundProps> {
 
   get status() {
     return this.props.status
+  }
+
+  set status(status: RoundStatus) {
+    this.status = status
   }
 
   get createdAt() {
