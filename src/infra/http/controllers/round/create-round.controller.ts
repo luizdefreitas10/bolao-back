@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Body,
+  ConflictException,
   Controller,
   HttpCode,
   Post,
@@ -9,8 +10,9 @@ import { z } from 'zod'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { ApiTags } from '@nestjs/swagger'
 import { CreateRoundDto } from './dto/create-round-dto'
-import { CreateRoundUseCase } from '@/domain/project/application/use-cases/create-round-'
+import { CreateRoundUseCase } from '@/domain/project/application/use-cases/create-round'
 import { Roles } from '@/infra/auth/roles.decorator'
+import { ChampionshipDoesNotExistYetError } from '@/domain/project/application/use-cases/errors/championship-doesnt-exist-yet-error'
 
 const createRoundBodySchema = z.object({
   name: z.string(),
@@ -38,6 +40,8 @@ export class CreateRoundController {
     if (result.isLeft()) {
       const error = result.value
       switch (error.constructor) {
+        case ChampionshipDoesNotExistYetError:
+          throw new ConflictException(error.message)
         default:
           throw new BadRequestException(error.message)
       }

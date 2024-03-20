@@ -17,8 +17,16 @@ export class Championship extends Entity<ChampionshipProps> {
     return this.props.name
   }
 
+  set name(name: string) {
+    this.props.name = name
+  }
+
   get status() {
     return this.props.status
+  }
+
+  set status(status: ChampionshipStatus) {
+    this.props.status = status
   }
 
   get createdAt() {

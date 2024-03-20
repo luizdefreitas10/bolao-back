@@ -1,12 +1,18 @@
-import { z } from "zod";
-import { ZodValidationPipe } from "../../pipes/zod-validation-pipe";
-import { ApiTags } from "@nestjs/swagger";
-import { BadRequestException, Body, Controller, HttpCode, Post } from "@nestjs/common";
-import { Roles } from "@/infra/auth/roles.decorator";
-import { CreateChampionshipUseCase } from "@/domain/project/application/use-cases/create-championship";
-import { CreateChampionshipDto } from "./dto/create-championship-dto";
-import { ChampionshipAlreadyExistsError } from "@/domain/project/application/use-cases/errors/championship-already-exists-error";
-import { CreateChampionshipPresenter } from "../../presenters/http-create-championship-presenter";
+import { z } from 'zod'
+import { ZodValidationPipe } from '../../pipes/zod-validation-pipe'
+import { ApiTags } from '@nestjs/swagger'
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  HttpCode,
+  Post,
+} from '@nestjs/common'
+import { Roles } from '@/infra/auth/roles.decorator'
+import { CreateChampionshipUseCase } from '@/domain/project/application/use-cases/create-championship'
+import { CreateChampionshipDto } from './dto/create-championship-dto'
+import { ChampionshipAlreadyExistsError } from '@/domain/project/application/use-cases/errors/championship-already-exists-error'
+import { CreateChampionshipPresenter } from '../../presenters/http-create-championship-presenter'
 
 const createChampionshipBodySchema = z.object({
   name: z.string(),

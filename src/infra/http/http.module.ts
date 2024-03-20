@@ -36,7 +36,7 @@ import { RemoveRoundController } from './controllers/round/remove-round.controll
 import { RemoveMatchController } from './controllers/match/remove-match.controller'
 import { RemoveMatchUseCase } from '@/domain/project/application/use-cases/remove-match'
 import { CreateRoundController } from './controllers/round/create-round.controller'
-import { CreateRoundUseCase } from '@/domain/project/application/use-cases/create-round-'
+import { CreateRoundUseCase } from '@/domain/project/application/use-cases/create-round'
 import { CreatePredictionUseCase } from '@/domain/project/application/use-cases/create-prediction'
 import { CreatePredictionController } from './controllers/prediction/create-prediction.controller'
 import { CreateChampionshipUseCase } from '@/domain/project/application/use-cases/create-championship'
