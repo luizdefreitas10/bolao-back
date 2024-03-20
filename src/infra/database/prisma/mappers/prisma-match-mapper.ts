@@ -14,6 +14,7 @@ export class PrismaMatchMapper {
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
         date: raw.date,
+        status: raw.status,
       },
       new UniqueEntityID(raw.id),
     )
@@ -30,6 +31,7 @@ export class PrismaMatchMapper {
       createdAt: match.createdAt,
       updatedAt: match.updatedAt,
       date: match.date,
+      status: match.status,
     }
   }
 }

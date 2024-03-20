@@ -27,10 +27,10 @@ describe('Authenticate (E2E)', () => {
     await userFactory.makePrismaUser({
       userName: 'john',
       password: await hash('123456', 8),
+      isVerified: true,
     })
 
     const response = await request(app.getHttpServer()).post('/sessions').send({
-      phone: '8199632221',
       userName: 'john',
       password: '123456',
     })

@@ -35,6 +35,7 @@ export class PrismaUserMapper {
       isEmailVerified: user.isEmailVerified,
       instagram: user.instagram,
       role: user.role,
+      isVerified: user.isVerified,
     }
   }
 }
