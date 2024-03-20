@@ -44,11 +44,11 @@ model VerificationCode {
 
 model Championship {
   id        String             @id @default(uuid())
-  name      String
+  name      String             @unique
   status    ChampionshipStatus @default(WAITING)
   createdAt DateTime
   updatedAt DateTime?
-  rounds     Round[]
+  rounds    Round[]
 }
 
 model Round {

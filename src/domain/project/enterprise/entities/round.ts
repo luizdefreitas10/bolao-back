@@ -21,7 +21,7 @@ export class Round extends Entity<RoundProps> {
   }
 
   set name(name: string) {
-    this.name = name
+    this.props.name = name
   }
 
   get name() {
@@ -33,7 +33,7 @@ export class Round extends Entity<RoundProps> {
   }
 
   set status(status: RoundStatus) {
-    this.status = status
+    this.props.status = status
   }
 
   get createdAt() {

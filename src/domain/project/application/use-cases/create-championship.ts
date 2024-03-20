@@ -1,10 +1,10 @@
-import { ChampionshipStatus } from "@prisma/client"
-import { Round } from "../../enterprise/entities/round"
-import { Either, left, right } from "@/core/either"
-import { Championship } from "../../enterprise/entities/championship"
-import { ChampionshipAlreadyExistsError } from "./errors/championship-already-exists-error"
-import { Injectable } from "@nestjs/common"
-import { ChampionshipRepository } from "../repositories/championship-repository"
+import { ChampionshipStatus } from '@prisma/client'
+import { Round } from '../../enterprise/entities/round'
+import { Either, left, right } from '@/core/either'
+import { Championship } from '../../enterprise/entities/championship'
+import { ChampionshipAlreadyExistsError } from './errors/championship-already-exists-error'
+import { Injectable } from '@nestjs/common'
+import { ChampionshipRepository } from '../repositories/championship-repository'
 
 interface CreateChampionshipUseCaseRequest {
   name: string
@@ -24,8 +24,8 @@ export class CreateChampionshipUseCase {
   async execute({
     name,
   }: CreateChampionshipUseCaseRequest): Promise<CreateChampionshipUseCaseResponse> {
-
-    const championshipAlreadyExists = await this.championshipRepository.findByName(name)
+    const championshipAlreadyExists =
+      await this.championshipRepository.findByName(name)
 
     if (championshipAlreadyExists) {
       return left(new ChampionshipAlreadyExistsError())
@@ -37,7 +37,8 @@ export class CreateChampionshipUseCase {
       createdAt: new Date(),
     })
 
-    const createdChampionship = await this.championshipRepository.create(championship)
+    const createdChampionship =
+      await this.championshipRepository.create(championship)
 
     return right({
       championship: createdChampionship,

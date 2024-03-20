@@ -4,9 +4,7 @@ import { InMemoryRoundRepository } from 'test/repositories/in-memory-round-repos
 import { makeRound } from 'test/factories/make-round'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { makeTeam } from 'test/factories/make-team'
-import { UpdateMatchDateUseCase } from './update-match-date'
 import { makeMatch } from 'test/factories/make-match'
-import { UpdateMatchStatusUseCase } from './update-match-status'
 import { RemoveMatchUseCase } from './remove-match'
 
 let inMemoryMatchRepository: InMemoryMatchRepository
