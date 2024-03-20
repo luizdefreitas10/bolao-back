@@ -17,7 +17,7 @@ const MatchStatusEnum = z.enum(['WAITING', 'IN_PROGRESS', 'DONE', 'CANCELED'])
 
 const UpdateMatchStatusBodySchema = z.object({
   matchId: z.string(),
-  date: MatchStatusEnum,
+  status: MatchStatusEnum,
 })
 
 const bodyValidationPipe = new ZodValidationPipe(UpdateMatchStatusBodySchema)

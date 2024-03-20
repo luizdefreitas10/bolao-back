@@ -13,7 +13,7 @@ let inMemoryRoundRepository: InMemoryRoundRepository
 
 let sut: UpdateMatchDateUseCase
 
-describe('Create new match', () => {
+describe('Update match date', () => {
   beforeEach(() => {
     inMemoryMatchRepository = new InMemoryMatchRepository()
     sut = new UpdateMatchDateUseCase(inMemoryMatchRepository)
