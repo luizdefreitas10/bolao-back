@@ -46,49 +46,6 @@ describe('Create new match', () => {
     expect(result.isRight()).toBe(true)
   })
 
-  it('should be able to register a new match', async () => {
-    const roundTest = makeRound({
-      championshipId: new UniqueEntityID('1'),
-    })
-
-    const teamHomeTest = makeTeam()
-    const teamAwayTest = makeTeam()
-
-    await inMemoryRoundRepository.create(roundTest)
-    await inMemoryTeamRepository.create(teamHomeTest)
-    await inMemoryTeamRepository.create(teamAwayTest)
-
-    const result = await sut.execute({
-      teamIdAway: teamAwayTest.id.toString(),
-      teamIdHome: teamHomeTest.id.toString(),
-      roundId: roundTest.id.toString(),
-      date: new Date('11/12/2024'),
-    })
-
-    expect(result.isRight()).toBe(true)
-  })
-  it('should be able to register a new match', async () => {
-    const roundTest = makeRound({
-      championshipId: new UniqueEntityID('1'),
-    })
-
-    const teamHomeTest = makeTeam()
-    const teamAwayTest = makeTeam()
-
-    await inMemoryRoundRepository.create(roundTest)
-    await inMemoryTeamRepository.create(teamHomeTest)
-    await inMemoryTeamRepository.create(teamAwayTest)
-
-    const result = await sut.execute({
-      teamIdAway: teamAwayTest.id.toString(),
-      teamIdHome: teamHomeTest.id.toString(),
-      roundId: roundTest.id.toString(),
-      date: new Date('11/12/2024'),
-    })
-
-    expect(result.isRight()).toBe(true)
-  })
-
   it('should not be able to register a new match with a past date', async () => {
     const roundTest = makeRound({
       championshipId: new UniqueEntityID('1'),
