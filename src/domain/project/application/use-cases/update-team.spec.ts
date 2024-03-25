@@ -1,6 +1,5 @@
 import { InMemoryTeamRepository } from 'test/repositories/in-memory-team-repository'
 import { UpdateTeamUseCase } from './update-team'
-import { makeUser } from 'test/factories/make-user'
 import { Team } from '../../enterprise/entities/team'
 
 let inMemoryTeamRepository: InMemoryTeamRepository
