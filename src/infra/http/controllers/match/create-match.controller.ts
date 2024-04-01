@@ -35,7 +35,6 @@ export class CreateMatchController {
   @HttpCode(201)
   @Roles(['ADMIN'])
   async handle(@Body(bodyValidationPipe) body: CreateMatchDto) {
-    console.log(body)
     const { teamIdHome, teamIdAway, roundId, date } = body
 
     const result = await this.createMatch.execute({
