@@ -1,4 +1,4 @@
-import { Championship } from "@/domain/project/enterprise/entities/championship";
+import { Championship } from '@/domain/project/enterprise/entities/championship'
 
 export class UpdateChampionshipNamePresenter {
   static toHTTP(championship: Championship) {

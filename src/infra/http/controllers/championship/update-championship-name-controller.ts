@@ -20,12 +20,16 @@ const updateChampionshipNameBodySchema = z.object({
   newChampionshipName: z.string(),
 })
 
-const bodyValidationPipe = new ZodValidationPipe(updateChampionshipNameBodySchema)
+const bodyValidationPipe = new ZodValidationPipe(
+  updateChampionshipNameBodySchema,
+)
 
 @ApiTags('championship')
 @Controller('/championship/update-name')
 export class UpdateChampionshipNameController {
-  constructor(private updateChampionshipNameUseCase: UpdateChampionshipNameUseCase) {}
+  constructor(
+    private updateChampionshipNameUseCase: UpdateChampionshipNameUseCase,
+  ) {}
 
   @Patch()
   @HttpCode(200)
@@ -35,7 +39,7 @@ export class UpdateChampionshipNameController {
 
     const result = await this.updateChampionshipNameUseCase.execute({
       championshipName,
-      newChampionshipName
+      newChampionshipName,
     })
 
     if (result.isLeft()) {
@@ -50,6 +54,8 @@ export class UpdateChampionshipNameController {
 
     const { championship } = result.value
 
-    return { championship: UpdateChampionshipNamePresenter.toHTTP(championship) }
+    return {
+      championship: UpdateChampionshipNamePresenter.toHTTP(championship),
+    }
   }
 }

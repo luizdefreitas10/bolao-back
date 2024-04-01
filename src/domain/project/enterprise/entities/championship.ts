@@ -37,6 +37,10 @@ export class Championship extends Entity<ChampionshipProps> {
     return this.props.updatedAt
   }
 
+  set updatedAt(updatedAt: Date | null | undefined) {
+    this.props.updatedAt = updatedAt
+  }
+
   get rounds() {
     return this.props.rounds
   }

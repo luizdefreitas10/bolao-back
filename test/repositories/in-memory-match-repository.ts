@@ -26,7 +26,7 @@ export class InMemoryMatchRepository implements MatchRepository {
     const matchIndex = this.items.findIndex(
       (item) => item.id.toString() === matchId,
     )
-    console.log(matchIndex)
+    // console.log(matchIndex)
     if (matchIndex === -1) {
       return
     }

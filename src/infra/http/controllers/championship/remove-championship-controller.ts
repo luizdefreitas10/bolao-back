@@ -1,11 +1,19 @@
-import { BadRequestException, Body, ConflictException, Controller, Delete, HttpCode, Patch } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
-import { ZodValidationPipe } from "../../pipes/zod-validation-pipe";
-import { z } from "zod";
-import { RemoveChampionshipUseCase } from "@/domain/project/application/use-cases/remove-championship";
-import { Roles } from "@/infra/auth/roles.decorator";
-import { RemoveChampionshipDto } from "./dto/remove-championship-dto";
-import { ChampionshipDoesNotExistYetError } from "@/domain/project/application/use-cases/errors/championship-doesnt-exist-yet-error";
+import {
+  BadRequestException,
+  Body,
+  ConflictException,
+  Controller,
+  Delete,
+  HttpCode,
+  Patch,
+} from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
+import { ZodValidationPipe } from '../../pipes/zod-validation-pipe'
+import { z } from 'zod'
+import { RemoveChampionshipUseCase } from '@/domain/project/application/use-cases/remove-championship'
+import { Roles } from '@/infra/auth/roles.decorator'
+import { RemoveChampionshipDto } from './dto/remove-championship-dto'
+import { ChampionshipDoesNotExistYetError } from '@/domain/project/application/use-cases/errors/championship-doesnt-exist-yet-error'
 
 const removeChampionshipBodySchema = z.object({
   championshipName: z.string(),
@@ -25,7 +33,7 @@ export class RemoveChampionshipController {
     const { championshipName } = body
 
     const result = await this.removeChampionshipUseCase.execute({
-      championshipName
+      championshipName,
     })
 
     if (result.isLeft()) {

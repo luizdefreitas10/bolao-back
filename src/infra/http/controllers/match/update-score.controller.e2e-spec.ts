@@ -78,7 +78,7 @@ describe('Update Match Score (E2E)', () => {
         scoreHome: 1,
         scoreAway: 0,
       })
-    console.log(response)
+    // console.log(response)
     expect(response.statusCode).toBe(201)
 
     const matchOnDatabase = await prisma.match.findFirst({

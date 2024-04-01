@@ -77,7 +77,7 @@ describe('Update Match Status (E2E)', () => {
         matchId: match.id.toString(),
         status: 'DONE',
       })
-    console.log(response)
+    // console.log(response)
     expect(response.statusCode).toBe(201)
 
     const matchOnDatabase = await prisma.match.findFirst({

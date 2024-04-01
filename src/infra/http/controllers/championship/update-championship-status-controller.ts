@@ -16,19 +16,28 @@ import { UpdateChampionshipStatusUseCase } from '@/domain/project/application/us
 import { UpdateChampionshipStatusDto } from './dto/update-championship-status-dto'
 import { UpdateChampionshipStatusPresenter } from '../../presenters/http-update-championship-status-presenter'
 
-const ChampionshipStatusEnum = z.enum(['WAITING', 'IN_PROGRESS', 'DONE', 'CANCELED'])
+const ChampionshipStatusEnum = z.enum([
+  'WAITING',
+  'IN_PROGRESS',
+  'DONE',
+  'CANCELED',
+])
 
 const updateChampionshipStatusBodySchema = z.object({
   championshipName: z.string(),
   status: ChampionshipStatusEnum,
 })
 
-const bodyValidationPipe = new ZodValidationPipe(updateChampionshipStatusBodySchema)
+const bodyValidationPipe = new ZodValidationPipe(
+  updateChampionshipStatusBodySchema,
+)
 
 @ApiTags('championship')
 @Controller('/championship/update-status')
 export class UpdateChampionshipStatusController {
-  constructor(private updateChampionshipStatusUseCase: UpdateChampionshipStatusUseCase) {}
+  constructor(
+    private updateChampionshipStatusUseCase: UpdateChampionshipStatusUseCase,
+  ) {}
 
   @Patch()
   @HttpCode(200)
@@ -38,7 +47,7 @@ export class UpdateChampionshipStatusController {
 
     const result = await this.updateChampionshipStatusUseCase.execute({
       championshipName,
-      status
+      status,
     })
 
     if (result.isLeft()) {
@@ -53,6 +62,8 @@ export class UpdateChampionshipStatusController {
 
     const { championship } = result.value
 
-    return { championship: UpdateChampionshipStatusPresenter.toHTTP(championship) }
+    return {
+      championship: UpdateChampionshipStatusPresenter.toHTTP(championship),
+    }
   }
 }

@@ -4,6 +4,7 @@ import { ApiTags } from '@nestjs/swagger'
 import {
   BadRequestException,
   Body,
+  ConflictException,
   Controller,
   HttpCode,
   Post,
@@ -40,7 +41,7 @@ export class CreateChampionshipController {
 
       switch (error.constructor) {
         case ChampionshipAlreadyExistsError:
-          throw new ChampionshipAlreadyExistsError()
+          throw new ConflictException(error.message)
         default:
           throw new BadRequestException(error.message)
       }
