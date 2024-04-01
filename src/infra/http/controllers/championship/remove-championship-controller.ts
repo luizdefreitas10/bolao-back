@@ -5,7 +5,6 @@ import {
   Controller,
   Delete,
   HttpCode,
-  Patch,
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ZodValidationPipe } from '../../pipes/zod-validation-pipe'
