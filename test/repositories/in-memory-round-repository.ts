@@ -1,3 +1,4 @@
+import { PaginationParams } from '@/core/repositories/pagination-params'
 import { RoundRepository } from '@/domain/project/application/repositories/round-repository'
 import { Round } from '@/domain/project/enterprise/entities/round'
 import { RoundStatus } from '@prisma/client'
@@ -40,6 +41,17 @@ export class InMemoryRoundRepository implements RoundRepository {
     if (!round) {
       return null
     }
+
+    return round
+  }
+
+  async findByChampionshipId(
+    champId: string,
+    params: PaginationParams,
+  ): Promise<Round[]> {
+    const round = this.items.filter(
+      (item) => item.championshipId.toString() === champId,
+    )
 
     return round
   }

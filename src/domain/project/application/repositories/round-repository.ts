@@ -1,5 +1,6 @@
-import { RoundStatus } from '@prisma/client'
+import { Championship, RoundStatus } from '@prisma/client'
 import { Round } from '../../enterprise/entities/round'
+import { PaginationParams } from '@/core/repositories/pagination-params'
 
 export abstract class RoundRepository {
   abstract create(round: Round): Promise<Round>
@@ -9,4 +10,9 @@ export abstract class RoundRepository {
     roundId: string,
     status: RoundStatus,
   ): Promise<void>
+
+  abstract findByChampionshipId(
+    champId: string,
+    params: PaginationParams,
+  ): Promise<Round[]>
 }
