@@ -1,6 +1,6 @@
-import { UniqueEntityID } from "@/core/entities/unique-entity-id";
-import { Championship } from "@/domain/project/enterprise/entities/championship";
-import { Prisma, Championship as PrismaChampionship } from "@prisma/client";
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { Championship } from '@/domain/project/enterprise/entities/championship'
+import { Prisma, Championship as PrismaChampionship } from '@prisma/client'
 
 export class PrismaChampionshipMapper {
   static toDomain(rawChampionship: PrismaChampionship): Championship {
@@ -11,12 +11,12 @@ export class PrismaChampionshipMapper {
         createdAt: rawChampionship.createdAt,
         updatedAt: rawChampionship.updatedAt,
       },
-      new UniqueEntityID(rawChampionship.id)
-    );
+      new UniqueEntityID(rawChampionship.id),
+    )
   }
 
   static toPrisma(
-    championship: Championship
+    championship: Championship,
   ): Prisma.ChampionshipUncheckedCreateInput {
     return {
       id: championship.id.toString(),
@@ -24,6 +24,6 @@ export class PrismaChampionshipMapper {
       status: championship.status,
       createdAt: championship.createdAt,
       updatedAt: championship.updatedAt,
-    };
+    }
   }
 }

@@ -1,5 +1,3 @@
-import { ChampionshipStatus } from '@prisma/client'
-import { Round } from '../../enterprise/entities/round'
 import { Either, left, right } from '@/core/either'
 import { Championship } from '../../enterprise/entities/championship'
 import { ChampionshipAlreadyExistsError } from './errors/championship-already-exists-error'

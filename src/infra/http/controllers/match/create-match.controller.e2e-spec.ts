@@ -61,7 +61,7 @@ describe('Create Match (E2E)', () => {
         roundId: round.id.toString(),
         date: newData,
       })
-    // console.log(response)
+
     expect(response.statusCode).toBe(201)
 
     const matchOnDatabase = await prisma.match.findFirst({

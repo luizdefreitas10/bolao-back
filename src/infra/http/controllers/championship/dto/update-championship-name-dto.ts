@@ -1,11 +1,9 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger'
 
 export class UpdateChampionshipNameDto {
   @ApiProperty()
-  championshipName!: string;
+  championshipName!: string
 
   @ApiProperty()
-  newChampionshipName!: string;
+  newChampionshipName!: string
 }
-
-

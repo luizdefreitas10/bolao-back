@@ -27,7 +27,7 @@ describe('Remove team', () => {
       teamName,
     })
 
-    console.log(inMemoryTeamRepository.items[0])
+    // console.log(inMemoryTeamRepository.items[0])
 
     expect(result.isRight()).toBe(true)
     expect(result.value).toBeNull()

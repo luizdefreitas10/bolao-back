@@ -22,10 +22,10 @@ model User {
   createdAt                DateTime
   updatedAt                DateTime?
   isVerified               Boolean            @default(false)
-  VerificationCode         VerificationCode[]
+  verificationCode         VerificationCode[]
   lastPasswordModification DateTime?
   isEmailVerified          Boolean?
-  Prediction               Prediction[]
+  predictions               Prediction[]
 
   @@map("users")
 }
