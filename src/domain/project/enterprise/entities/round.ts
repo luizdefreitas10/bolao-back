@@ -2,13 +2,27 @@ import { Entity } from '@/core/entities/entity'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 import { RoundStatus } from '@prisma/client'
+import { Match } from './match'
 
+export type TeamPropsMatch = {
+  name: string
+}
+
+type MatchProps = {
+  scoreAway: number
+  scoreHome: number
+  teamHome: TeamPropsMatch
+  teamAway: TeamPropsMatch
+  date: Date
+  status: RoundStatus
+}
 export interface RoundProps {
   status: RoundStatus
   name: string
   createdAt: Date
   updatedAt?: Date | null
   championshipId: UniqueEntityID
+  matchs?: Match[] | MatchProps[] | null
 }
 
 export class Round extends Entity<RoundProps> {
@@ -26,6 +40,10 @@ export class Round extends Entity<RoundProps> {
 
   get name() {
     return this.props.name
+  }
+
+  get matchs() {
+    return this.props.matchs
   }
 
   get status() {

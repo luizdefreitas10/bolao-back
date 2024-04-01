@@ -51,6 +51,8 @@ import { RemoveChampionshipUseCase } from '@/domain/project/application/use-case
 import { RemoveChampionshipController } from './controllers/championship/remove-championship-controller'
 import { UpdateScoreController } from './controllers/match/update-score.controller'
 import { UpdateScoreUseCase } from '@/domain/project/application/use-cases/update-score-match'
+import { FetchRoundsChampionshipUseCase } from '@/domain/project/application/use-cases/fetch-rounds-championship'
+import { FetchRoundsChampionshipController } from './controllers/round/fetch-rounds-championship.controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, JobsModule],
@@ -78,6 +80,7 @@ import { UpdateScoreUseCase } from '@/domain/project/application/use-cases/updat
     UpdateChampionshipStatusController,
     RemoveChampionshipController,
     UpdateScoreController,
+    FetchRoundsChampionshipController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -105,6 +108,8 @@ import { UpdateScoreUseCase } from '@/domain/project/application/use-cases/updat
     UpdateChampionshipStatusUseCase,
     RemoveChampionshipUseCase,
     UpdateScoreUseCase,
+    FetchRoundsChampionshipUseCase,
+    FetchRoundsChampionshipUseCase,
   ],
 })
 export class HttpModule {}
