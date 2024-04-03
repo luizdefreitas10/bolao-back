@@ -1,4 +1,4 @@
-import { Championship, RoundStatus } from '@prisma/client'
+import { RoundStatus } from '@prisma/client'
 import { Round } from '../../enterprise/entities/round'
 import { PaginationParams } from '@/core/repositories/pagination-params'
 
