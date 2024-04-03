@@ -1,7 +1,14 @@
 import { z } from "zod";
 import { ZodValidationPipe } from "../../pipes/zod-validation-pipe";
 import { ApiTags } from "@nestjs/swagger";
-import { BadRequestException, Controller, Get, HttpCode, Param, Query } from "@nestjs/common";
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  Query,
+} from "@nestjs/common";
 import { Roles } from "@/infra/auth/roles.decorator";
 
 const pageQueryParamSchema = z
@@ -14,6 +21,8 @@ const pageQueryParamSchema = z
 const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema);
 
 type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>;
+
+const fetchMatchesByStatusBodySchema = 
 
 @ApiTags("match")
 @Controller("/match/:roundId/status")
@@ -33,12 +42,7 @@ export class FetchMatchByStatusController {
     });
 
     if (result.isLeft()) {
-          throw new BadRequestException();
-      }
+      throw new BadRequestException();
     }
-
-    const { match } = result.value;
-
-    return { matchId: match.id.toString() };
   }
 }

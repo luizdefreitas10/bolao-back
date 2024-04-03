@@ -21,4 +21,5 @@ export abstract class MatchRepository {
     matchId: string,
     status: MatchStatus,
   ): Promise<void>
+  abstract fetchMatchesByStatus(status: MatchStatus): Promise<Match[]>
 }
