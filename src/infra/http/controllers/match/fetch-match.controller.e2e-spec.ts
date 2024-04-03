@@ -10,7 +10,7 @@ import { RoundFactory } from 'test/factories/make-round'
 import { TeamFactory } from 'test/factories/make-team'
 import { UserFactory } from 'test/factories/make-user'
 
-describe('Fetch rounds  (E2E)', () => {
+describe('Fetch match (E2E)', () => {
   let app: INestApplication
   let championshioFactory: ChampionshipFactory
   let roundFactory: RoundFactory
@@ -63,29 +63,21 @@ describe('Fetch rounds  (E2E)', () => {
     })
 
     const response = await request(app.getHttpServer())
-      .get(`/rounds/${champ.id.toString()}`)
+      .get(`/match/${match.id.toString()}`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send()
 
     expect(response.statusCode).toBe(200)
     console.log(response.body)
     expect(response.body).toEqual({
-      rounds: expect.arrayContaining([
-        expect.objectContaining({
-          name: 'Round Teste',
-          status: 'WAITING',
-          matchs: [
-            {
-              date: match.date.toISOString(),
-              scoreAway: 0,
-              scoreHome: 0,
-              status: 'WAITING',
-              teamAway: { name: 'TeamAway' },
-              teamHome: { name: 'TeamHome' },
-            },
-          ],
-        }),
-      ]),
+      match: {
+        date: match.date.toISOString(),
+        scoreAway: 0,
+        scoreHome: 0,
+        status: 'WAITING',
+        teamIdAway: { value: match.teamIdAway.toString() },
+        teamIdHome: { value: match.teamIdHome.toString() },
+      },
     })
   })
 })
