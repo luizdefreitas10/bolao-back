@@ -1,5 +1,6 @@
 import { MatchStatus } from '@prisma/client'
 import { Match } from '../../enterprise/entities/match'
+import { PaginationParams } from '@/core/repositories/pagination-params'
 
 export abstract class MatchRepository {
   abstract create(match: Match): Promise<Match>
@@ -21,4 +22,9 @@ export abstract class MatchRepository {
     matchId: string,
     status: MatchStatus,
   ): Promise<void>
+
+  abstract fetchMatchesByStatus(
+    status: MatchStatus,
+    params: PaginationParams,
+  ): Promise<Match[]>
 }

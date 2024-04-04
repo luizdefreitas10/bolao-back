@@ -3,11 +3,31 @@ import { PrismaService } from '../prisma.service'
 import { MatchRepository } from '@/domain/project/application/repositories/match-repository'
 import { Match } from '@/domain/project/enterprise/entities/match'
 import { PrismaMatchMapper } from '../mappers/prisma-match-mapper'
-import { MatchStatus } from '@prisma/client'
+import { $Enums, MatchStatus } from '@prisma/client'
+import { PaginationParams } from '@/core/repositories/pagination-params'
 
 @Injectable()
 export class PrismaMatchRepository implements MatchRepository {
   constructor(private prisma: PrismaService) {}
+
+  async fetchMatchesByStatus(
+    status: $Enums.MatchStatus,
+    { page }: PaginationParams,
+  ): Promise<Match[]> {
+    const matches = await this.prisma.match.findMany({
+      where: {
+        status,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 20,
+      skip: (page - 1) * 20,
+    })
+
+    return matches.map(PrismaMatchMapper.toDomain)
+  }
+
   async updateMatchDate(matchId: string, date: Date): Promise<void> {
     await this.prisma.match.update({
       where: {
