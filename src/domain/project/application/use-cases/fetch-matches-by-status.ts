@@ -1,10 +1,11 @@
-import { Either } from "@/core/either"
-import { Match } from "../../enterprise/entities/match"
-import { Injectable } from "@nestjs/common"
-
+import { Either, left, right } from '@/core/either'
+import { Match } from '../../enterprise/entities/match'
+import { Injectable } from '@nestjs/common'
+import { MatchStatus } from '@prisma/client'
+import { MatchRepository } from '../repositories/match-repository'
 
 interface FetchMatchesByStatusUseCaseRequest {
-  roundId: string
+  status: MatchStatus
   page: number
 }
 
@@ -17,22 +18,22 @@ type FetchMatchesByStatusUseCaseResponse = Either<
 
 @Injectable()
 export class FetchMatchesByStatusUseCase {
-  constructor(private questionCommentsRepository: QuestionCommentsRepository) {}
+  constructor(private matchRepository: MatchRepository) {}
 
   async execute({
-    questionId,
+    status,
     page,
-  }: FetchQuestionCommentsUseCaseRequest): Promise<FetchQuestionCommentsUseCaseResponse> {
-    const comments =
-      await this.questionCommentsRepository.findManyByQuestionIdWithAuthor(
-        questionId,
-        {
-          page,
-        },
-      )
+  }: FetchMatchesByStatusUseCaseRequest): Promise<FetchMatchesByStatusUseCaseResponse> {
+    const matches = await this.matchRepository.fetchMatchesByStatus(status, {
+      page,
+    })
+
+    if (!matches) {
+      return left(null)
+    }
 
     return right({
-      comments,
+      matches,
     })
   }
 }

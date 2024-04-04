@@ -55,6 +55,8 @@ import { FetchRoundsChampionshipUseCase } from '@/domain/project/application/use
 import { FetchRoundsChampionshipController } from './controllers/round/fetch-rounds-championship.controller'
 import { FetchMatchController } from './controllers/match/fetch-match.controller'
 import { FetchMatchUseCase } from '@/domain/project/application/use-cases/fetch-match'
+import { FetchMatchesByStatusController } from './controllers/match/fetch-matches-by-status.controller'
+import { FetchMatchesByStatusUseCase } from '@/domain/project/application/use-cases/fetch-matches-by-status'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, JobsModule],
@@ -84,6 +86,7 @@ import { FetchMatchUseCase } from '@/domain/project/application/use-cases/fetch-
     UpdateScoreController,
     FetchRoundsChampionshipController,
     FetchMatchController,
+    FetchMatchesByStatusController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -113,6 +116,7 @@ import { FetchMatchUseCase } from '@/domain/project/application/use-cases/fetch-
     UpdateScoreUseCase,
     FetchRoundsChampionshipUseCase,
     FetchMatchUseCase,
+    FetchMatchesByStatusUseCase,
   ],
 })
 export class HttpModule {}

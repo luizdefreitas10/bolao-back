@@ -1,48 +1,73 @@
-import { z } from "zod";
-import { ZodValidationPipe } from "../../pipes/zod-validation-pipe";
-import { ApiTags } from "@nestjs/swagger";
+import { z } from 'zod'
+import { ZodValidationPipe } from '../../pipes/zod-validation-pipe'
+import { ApiTags } from '@nestjs/swagger'
 import {
   BadRequestException,
+  Body,
   Controller,
   Get,
   HttpCode,
-  Param,
+  Post,
   Query,
-} from "@nestjs/common";
-import { Roles } from "@/infra/auth/roles.decorator";
+} from '@nestjs/common'
+import { Roles } from '@/infra/auth/roles.decorator'
+import { FetchMatchesByStatusDto } from './dto/fetch-matches-by-status-dto'
+import { FetchMatchesByStatusUseCase } from '@/domain/project/application/use-cases/fetch-matches-by-status'
+import { MatchPresenter } from '../../presenters/match-presenter'
 
 const pageQueryParamSchema = z
   .string()
   .optional()
-  .default("1")
+  .default('1')
   .transform(Number)
-  .pipe(z.number().min(1));
+  .pipe(z.number().min(1))
 
-const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema);
+const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema)
 
-type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>;
+type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>
 
-const fetchMatchesByStatusBodySchema = 
+const ChampionshipStatusEnum = z.enum([
+  'WAITING',
+  'IN_PROGRESS',
+  'DONE',
+  'CANCELED',
+])
 
-@ApiTags("match")
-@Controller("/match/:roundId/status")
-export class FetchMatchByStatusController {
-  constructor(private fetchMatchesByStatus: FetchMatchesByStatus) {}
+const fetchMatchesByStatusBodySchema = z.object({
+  status: ChampionshipStatusEnum,
+})
 
-  @Get()
+const bodyValidationPipe = new ZodValidationPipe(fetchMatchesByStatusBodySchema)
+
+@ApiTags('match')
+@Controller('/match/by-status')
+export class FetchMatchesByStatusController {
+  constructor(
+    private fetchMatchesByStatusUseCase: FetchMatchesByStatusUseCase,
+  ) {}
+
+  @Post()
   @HttpCode(200)
-  @Roles(["ADMIN"])
+  @Roles(['ADMIN'])
   async handle(
-    @Query("page", queryValidationPipe) page: PageQueryParamSchema,
-    @Param("roundId") roundId: number
+    @Query('page', queryValidationPipe) page: PageQueryParamSchema,
+    @Body(bodyValidationPipe) body: FetchMatchesByStatusDto,
   ) {
-    const result = await this.fetchMatchesByStatus.execute({
+    const { status } = body
+
+    const result = await this.fetchMatchesByStatusUseCase.execute({
       page,
-      roundId,
-    });
+      status,
+    })
 
     if (result.isLeft()) {
-      throw new BadRequestException();
+      throw new BadRequestException()
     }
+
+    const matchesByStatus = result.value.matches
+
+    const matches = matchesByStatus.map(MatchPresenter.toHTTP)
+
+    return { matches }
   }
 }
