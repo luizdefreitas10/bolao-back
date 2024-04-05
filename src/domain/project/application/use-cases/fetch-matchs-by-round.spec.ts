@@ -7,24 +7,28 @@ import { makeRound } from 'test/factories/make-round'
 import { makeTeam } from 'test/factories/make-team'
 import { makeMatch } from 'test/factories/make-match'
 import { FetchMatchUseCase } from './fetch-match'
+import { FetchMatchByRoundUseCase } from './fetch-matchs-by-round'
 
 let inMemoryChampionshipRepository: InMemoryChampionshipRepository
 let inMemoryRoundRepository: InMemoryRoundRepository
 let inMemoryTeamRepository: InMemoryTeamRepository
 let inMemoryMatchRepository: InMemoryMatchRepository
-let sut: FetchMatchUseCase
+let sut: FetchMatchByRoundUseCase
 
-describe('Fetch Match', () => {
+describe('Fetch Match By Round', () => {
   beforeEach(() => {
     inMemoryRoundRepository = new InMemoryRoundRepository()
     inMemoryChampionshipRepository = new InMemoryChampionshipRepository()
     inMemoryTeamRepository = new InMemoryTeamRepository()
     inMemoryMatchRepository = new InMemoryMatchRepository()
 
-    sut = new FetchMatchUseCase(inMemoryMatchRepository)
+    sut = new FetchMatchByRoundUseCase(
+      inMemoryMatchRepository,
+      inMemoryRoundRepository,
+    )
   })
 
-  it('should be able to fetch match', async () => {
+  it('should be able to fetch matchs round', async () => {
     const champ = makeChampionship()
     await inMemoryChampionshipRepository.create(champ)
 
@@ -45,7 +49,8 @@ describe('Fetch Match', () => {
     await inMemoryMatchRepository.create(newMatch)
 
     const result = await sut.execute({
-      matchId: newMatch.id.toString(),
+      roundId: round.id.toString(),
+      page: 1,
     })
     expect(result.isRight()).toBe(true)
   })
