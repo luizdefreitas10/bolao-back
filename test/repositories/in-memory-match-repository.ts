@@ -1,3 +1,4 @@
+import { PaginationParams } from '@/core/repositories/pagination-params'
 import { MatchRepository } from '@/domain/project/application/repositories/match-repository'
 import { Match } from '@/domain/project/enterprise/entities/match'
 import { MatchStatus } from '@prisma/client'
@@ -66,17 +67,28 @@ export class InMemoryMatchRepository implements MatchRepository {
     teamAwayId: string,
     date: Date,
   ): Promise<Match | null> {
-    const team = this.items.find(
+    const match = this.items.find(
       (item) =>
         item.teamIdHome.toString() === teamHomeId &&
         item.teamIdAway.toString() === teamAwayId &&
         item.date === date,
     )
 
-    if (!team) {
+    if (!match) {
       return null
     }
 
-    return team
+    return match
+  }
+
+  async findByRoundId(
+    roundId: string,
+    params: PaginationParams,
+  ): Promise<Match[]> {
+    const matchs = this.items.filter(
+      (item) => item.roundId.toString() === roundId,
+    )
+
+    return matchs
   }
 }

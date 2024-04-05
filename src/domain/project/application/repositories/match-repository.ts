@@ -11,6 +11,11 @@ export abstract class MatchRepository {
     date: Date,
   ): Promise<Match | null>
 
+  abstract findByRoundId(
+    roundId: string,
+    params: PaginationParams,
+  ): Promise<Match[]>
+
   abstract updateScore(
     matchId: string,
     scoreHome: number,
