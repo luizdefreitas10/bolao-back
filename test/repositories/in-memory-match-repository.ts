@@ -1,10 +1,21 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { MatchRepository } from '@/domain/project/application/repositories/match-repository'
 import { Match } from '@/domain/project/enterprise/entities/match'
-import { MatchStatus } from '@prisma/client'
+import { $Enums, MatchStatus } from '@prisma/client'
 
 export class InMemoryMatchRepository implements MatchRepository {
   public items: Match[] = []
+
+  async fetchMatchesByStatus(
+    status: $Enums.MatchStatus,
+    _params: PaginationParams,
+  ): Promise<Match[]> {
+    const matches = this.items.filter((item) => {
+      return item.status === status
+    })
+
+    return matches
+  }
 
   async updateScore(
     matchId: string,

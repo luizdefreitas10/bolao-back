@@ -5,7 +5,6 @@ import {
   BadRequestException,
   Body,
   Controller,
-  Get,
   HttpCode,
   Post,
   Query,
@@ -31,6 +30,7 @@ const ChampionshipStatusEnum = z.enum([
   'IN_PROGRESS',
   'DONE',
   'CANCELED',
+  'INACTIVE',
 ])
 
 const fetchMatchesByStatusBodySchema = z.object({
