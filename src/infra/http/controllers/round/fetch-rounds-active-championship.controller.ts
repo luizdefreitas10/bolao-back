@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { z } from 'zod'
-import { FetchRoundsChampionshipUseCase } from '@/domain/project/application/use-cases/fetch-rounds-championship'
 import { RoundsPresenter } from '../../presenters/rounds-presenter'
+import { FetchRoundsActiveChampionshipUseCase } from '@/domain/project/application/use-cases/fetch-rounds-active-championship'
 
 const pageQueryParamSchema = z
   .string()
@@ -21,10 +21,10 @@ const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema)
 
 type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>
 
-@Controller('/all-rounds/:champId')
-export class FetchRoundsChampionshipController {
+@Controller('/rounds/:champId')
+export class FetchRoundsActiveChampionshipController {
   constructor(
-    private fetchRoundsChampionship: FetchRoundsChampionshipUseCase,
+    private fetchRoundsActiveChampionship: FetchRoundsActiveChampionshipUseCase,
   ) {}
 
   @Get()
@@ -32,7 +32,7 @@ export class FetchRoundsChampionshipController {
     @Query('page', queryValidationPipe) page: PageQueryParamSchema,
     @Param('champId') champId: string,
   ) {
-    const result = await this.fetchRoundsChampionship.execute({
+    const result = await this.fetchRoundsActiveChampionship.execute({
       champId,
       page,
     })
