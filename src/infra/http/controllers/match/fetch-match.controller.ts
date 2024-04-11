@@ -1,7 +1,8 @@
 import { BadRequestException, Controller, Get, Param } from '@nestjs/common'
 import { FetchMatchUseCase } from '@/domain/project/application/use-cases/fetch-match'
 import { MatchPresenter } from '../../presenters/match-presenter'
-
+import { ApiTags } from '@nestjs/swagger'
+@ApiTags('match')
 @Controller('/match/:matchId')
 export class FetchMatchController {
   constructor(private fetchMatchUseCase: FetchMatchUseCase) {}

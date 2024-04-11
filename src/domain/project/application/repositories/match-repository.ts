@@ -32,4 +32,6 @@ export abstract class MatchRepository {
     status: MatchStatus,
     params: PaginationParams,
   ): Promise<Match[]>
+
+  abstract fetchActiveMatches(params: PaginationParams): Promise<Match[]>
 }

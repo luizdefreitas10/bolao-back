@@ -9,6 +9,19 @@ import { PaginationParams } from '@/core/repositories/pagination-params'
 @Injectable()
 export class PrismaMatchRepository implements MatchRepository {
   constructor(private prisma: PrismaService) {}
+
+  async fetchActiveMatches({ page }: PaginationParams): Promise<Match[]> {
+    const matches = await this.prisma.match.findMany({
+      where: {
+        status: { in: ['WAITING', 'IN_PROGRESS', 'DONE'] },
+      },
+      take: 20,
+      skip: (page - 1) * 20,
+    })
+
+    return matches.map(PrismaMatchMapper.toDomain)
+  }
+
   async findByRoundId(
     roundId: string,
     { page }: PaginationParams,

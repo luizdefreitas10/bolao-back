@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   HttpCode,
+  Patch,
   Put,
 } from '@nestjs/common'
 import { z } from 'zod'
@@ -27,7 +28,7 @@ const bodyValidationPipe = new ZodValidationPipe(UpdateMatchStatusBodySchema)
 export class UpdateMatchStatusController {
   constructor(private UpdateMatchStatus: UpdateMatchStatusUseCase) {}
 
-  @Put()
+  @Patch()
   @HttpCode(201)
   @Roles(['ADMIN'])
   async handle(@Body(bodyValidationPipe) body: UpdateMatchStatusDto) {
