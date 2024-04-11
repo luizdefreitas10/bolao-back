@@ -25,8 +25,6 @@ export class FetchActiveMatchesUseCase {
       page,
     })
 
-    console.log(matches)
-
     if (!matches) {
       return left(null)
     }

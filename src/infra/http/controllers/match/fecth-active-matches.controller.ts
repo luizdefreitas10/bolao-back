@@ -29,13 +29,10 @@ type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>
 export class FetchActiveMatchesController {
   constructor(private fetchActiveMatchesUseCase: FetchActiveMatchesUseCase) {}
 
-  @Post()
+  @Get()
   @HttpCode(200)
   @Roles(['ADMIN'])
   async handle(@Query('page', queryValidationPipe) page: PageQueryParamSchema) {
-    console.log('oi entramos')
-    console.log(page)
-
     const result = await this.fetchActiveMatchesUseCase.execute({
       page,
     })

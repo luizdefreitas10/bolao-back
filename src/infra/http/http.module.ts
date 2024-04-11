@@ -89,10 +89,10 @@ import { FetchActiveMatchesUseCase } from '@/domain/project/application/use-case
     RemoveChampionshipController,
     UpdateScoreController,
     FetchRoundsChampionshipController,
+    FetchActiveMatchesController,
     FetchMatchController,
     FetchMatchesByStatusController,
     FetchMatchByRoundController,
-    FetchActiveMatchesController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -121,10 +121,10 @@ import { FetchActiveMatchesUseCase } from '@/domain/project/application/use-case
     RemoveChampionshipUseCase,
     UpdateScoreUseCase,
     FetchRoundsChampionshipUseCase,
+    FetchActiveMatchesUseCase,
     FetchMatchUseCase,
     FetchMatchesByStatusUseCase,
     FetchMatchByRoundUseCase,
-    FetchActiveMatchesUseCase,
   ],
 })
 export class HttpModule {}
