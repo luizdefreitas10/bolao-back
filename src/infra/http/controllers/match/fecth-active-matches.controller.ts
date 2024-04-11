@@ -25,11 +25,11 @@ const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema)
 type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>
 
 @ApiTags('match')
-@Controller('/match/active-matches')
+@Controller('/match')
 export class FetchActiveMatchesController {
   constructor(private fetchActiveMatchesUseCase: FetchActiveMatchesUseCase) {}
 
-  @Post()
+  @Get('/active-matches')
   @HttpCode(200)
   @Roles(['ADMIN'])
   async handle(@Query('page', queryValidationPipe) page: PageQueryParamSchema) {
