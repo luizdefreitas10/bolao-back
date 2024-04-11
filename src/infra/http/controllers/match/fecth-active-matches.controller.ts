@@ -6,7 +6,6 @@ import {
   Controller,
   Get,
   HttpCode,
-  Post,
   Query,
 } from '@nestjs/common'
 import { Roles } from '@/infra/auth/roles.decorator'

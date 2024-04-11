@@ -13,10 +13,12 @@ export class PrismaRoundRepository implements RoundRepository {
   async findByChampionshipId(
     champId: string,
     { page }: PaginationParams,
+    onlyActive?: boolean,
   ): Promise<Round[]> {
     const rounds = await this.prisma.round.findMany({
       where: {
         championshipId: champId,
+        ...(onlyActive ? { status: { not: 'INACTIVE' } } : {}),
       },
       select: {
         name: true,

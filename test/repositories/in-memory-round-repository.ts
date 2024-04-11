@@ -48,11 +48,16 @@ export class InMemoryRoundRepository implements RoundRepository {
   async findByChampionshipId(
     champId: string,
     params: PaginationParams,
+    onlyActive?: boolean,
   ): Promise<Round[]> {
-    const round = this.items.filter(
+    let rounds = this.items.filter(
       (item) => item.championshipId.toString() === champId,
     )
 
-    return round
+    if (onlyActive) {
+      rounds = rounds.filter((round) => round.status !== 'INACTIVE')
+    }
+
+    return rounds
   }
 }
