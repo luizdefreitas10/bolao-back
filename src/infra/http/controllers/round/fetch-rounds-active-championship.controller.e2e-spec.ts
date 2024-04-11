@@ -10,7 +10,7 @@ import { RoundFactory } from 'test/factories/make-round'
 import { TeamFactory } from 'test/factories/make-team'
 import { UserFactory } from 'test/factories/make-user'
 
-describe('Fetch all rounds  (E2E)', () => {
+describe('Fetch active rounds  (E2E)', () => {
   let app: INestApplication
   let championshioFactory: ChampionshipFactory
   let roundFactory: RoundFactory
@@ -43,7 +43,7 @@ describe('Fetch all rounds  (E2E)', () => {
     await app.init()
   })
 
-  test('[GET] /all-rounds/:champId', async () => {
+  test('[GET] /rounds/:champId', async () => {
     const user = await userFactory.makePrismaUser()
 
     const accessToken = jwt.sign({ sub: user.id.toString(), role: 'ADMIN' })
@@ -52,6 +52,11 @@ describe('Fetch all rounds  (E2E)', () => {
     const round = await roundFactory.makePrismaRound({
       championshipId: champ.id,
       name: 'Round Teste',
+    })
+    await roundFactory.makePrismaRound({
+      championshipId: champ.id,
+      name: 'Round Teste2',
+      status: 'INACTIVE',
     })
     const teamHome = await teamFactory.makePrismaTeam({ name: 'TeamHome' })
     const teamAway = await teamFactory.makePrismaTeam({ name: 'TeamAway' })
@@ -63,12 +68,13 @@ describe('Fetch all rounds  (E2E)', () => {
     })
 
     const response = await request(app.getHttpServer())
-      .get(`/all-rounds/${champ.id.toString()}`)
+      .get(`/rounds/${champ.id.toString()}`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send()
 
     expect(response.statusCode).toBe(200)
-    // console.log(response.body)
+    console.log(response.body)
+    expect(response.body.rounds).toHaveLength(1)
     expect(response.body).toEqual({
       rounds: expect.arrayContaining([
         expect.objectContaining({

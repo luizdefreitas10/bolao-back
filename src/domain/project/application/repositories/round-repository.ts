@@ -14,5 +14,6 @@ export abstract class RoundRepository {
   abstract findByChampionshipId(
     champId: string,
     params: PaginationParams,
+    onlyActive?: boolean,
   ): Promise<Round[]>
 }
