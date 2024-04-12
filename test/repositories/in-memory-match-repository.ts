@@ -6,6 +6,24 @@ import { $Enums, MatchStatus } from '@prisma/client'
 export class InMemoryMatchRepository implements MatchRepository {
   public items: Match[] = []
 
+  async fetchActiveMatches(_params: PaginationParams): Promise<Match[]> {
+    const waitingMatches = this.items.filter(
+      (item) => item.status === 'WAITING',
+    )
+    const inProgressMatches = this.items.filter(
+      (item) => item.status === 'IN_PROGRESS',
+    )
+    const doneMatches = this.items.filter((item) => item.status === 'DONE')
+
+    const activeMatches = [
+      ...waitingMatches,
+      ...doneMatches,
+      ...inProgressMatches,
+    ]
+
+    return activeMatches
+  }
+
   async fetchMatchesByStatus(
     status: $Enums.MatchStatus,
     _params: PaginationParams,
