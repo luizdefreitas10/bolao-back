@@ -45,7 +45,7 @@ describe('Update Match Date (E2E)', () => {
     await app.init()
   })
 
-  test('[PUT] /match/update-date', async () => {
+  test('[PATCH] /match/update-date', async () => {
     const championship = await championshipFactory.makePrismaChampionship()
     const user = await userFactory.makePrismaUserAdmin()
     const accessToken = jwt.sign({ sub: user.id.toString(), role: 'ADMIN' })
@@ -72,7 +72,7 @@ describe('Update Match Date (E2E)', () => {
     })
 
     const response = await request(app.getHttpServer())
-      .put('/match/update-date')
+      .patch('/match/update-date')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         matchId: match.id.toString(),

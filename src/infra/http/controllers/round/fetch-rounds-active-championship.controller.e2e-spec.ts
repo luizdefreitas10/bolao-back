@@ -73,7 +73,7 @@ describe('Fetch active rounds  (E2E)', () => {
       .send()
 
     expect(response.statusCode).toBe(200)
-    console.log(response.body)
+    // console.log(response.body)
     expect(response.body.rounds).toHaveLength(1)
     expect(response.body).toEqual({
       rounds: expect.arrayContaining([
