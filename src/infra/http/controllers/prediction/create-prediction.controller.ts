@@ -33,7 +33,6 @@ export class CreatePredictionController {
 
   @Post()
   @HttpCode(201)
-  @Roles(['ADMIN'])
   async handle(
     @Body(bodyValidationPipe) body: CreatePredictionDto,
     @CurrentUser() user: UserPayload,

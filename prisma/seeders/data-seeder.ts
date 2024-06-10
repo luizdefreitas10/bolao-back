@@ -1,7 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 
 export async function CreateInitialDataSeeder(prisma: PrismaClient) {
-
   async function createAdminUser() {
     await prisma.user.create({
       data: {
@@ -68,5 +67,11 @@ export async function CreateInitialDataSeeder(prisma: PrismaClient) {
     })
   }
 
-  return { createTeams, createChampionship, createRound, createMatch, createAdminUser }
+  return {
+    createTeams,
+    createChampionship,
+    createRound,
+    createMatch,
+    createAdminUser,
+  }
 }

@@ -25,6 +25,43 @@ export class PrismaPredictionRepository implements PredictionRepository {
     return PrismaPredictionMapper.toDomain(prediction)
   }
 
+  async findByUser(id: string): Promise<Prediction[]> {
+    const prediction = await this.prisma.prediction.findMany({
+      where: {
+        userId: id,
+      },
+      select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        userId: true,
+        matchId: true,
+        predictionAway: true,
+        predictionHome: true,
+        match: {
+          select: {
+            date: true,
+            scoreAway: true,
+            scoreHome: true,
+            status: true,
+            teamAway: {
+              select: {
+                name: true,
+              },
+            },
+            teamHome: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
+    })
+
+    return prediction.map(PrismaPredictionMapper.toDomainWithMatch)
+  }
+
   async findById(id: string): Promise<Prediction | null> {
     const prediction = await this.prisma.prediction.findUnique({
       where: {

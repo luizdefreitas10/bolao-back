@@ -7,4 +7,6 @@ export abstract class PredictionRepository {
     userId: string,
     matchId: string,
   ): Promise<Prediction | null>
+
+  abstract findByUser(userId: string): Promise<Prediction[]>
 }
