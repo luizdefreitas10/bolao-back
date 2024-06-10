@@ -1,6 +1,17 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
+import { TeamPropsMatch } from './round'
+import { MatchStatus } from '@prisma/client'
+
+type MatchProps = {
+  scoreAway: number
+  scoreHome: number
+  teamHome: TeamPropsMatch
+  teamAway: TeamPropsMatch
+  date: Date
+  status: MatchStatus
+}
 
 export interface PredictionProps {
   predictionHome: number
@@ -9,9 +20,14 @@ export interface PredictionProps {
   matchId: UniqueEntityID
   createdAt: Date
   updatedAt?: Date | null
+  match?: MatchProps | null
 }
 
 export class Prediction extends Entity<PredictionProps> {
+  get match() {
+    return this.props.match
+  }
+
   get predictionHome() {
     return this.props.predictionHome
   }

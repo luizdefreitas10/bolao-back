@@ -65,6 +65,8 @@ import { FetchActiveMatchesUseCase } from '@/domain/project/application/use-case
 
 import { FetchRoundsActiveChampionshipController } from './controllers/round/fetch-rounds-active-championship.controller'
 import { FetchRoundsActiveChampionshipUseCase } from '@/domain/project/application/use-cases/fetch-rounds-active-championship'
+import { FetchPredictionsController } from './controllers/prediction/fetch-predictions-by-user'
+import { FetchPredicitonByUserUseCase } from '@/domain/project/application/use-cases/fetch-predictions-by-user'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, JobsModule],
@@ -98,6 +100,7 @@ import { FetchRoundsActiveChampionshipUseCase } from '@/domain/project/applicati
     FetchMatchesByStatusController,
     FetchMatchByRoundController,
     FetchRoundsActiveChampionshipController,
+    FetchPredictionsController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -134,6 +137,7 @@ import { FetchRoundsActiveChampionshipUseCase } from '@/domain/project/applicati
     FetchActiveMatchesUseCase,
 
     FetchRoundsActiveChampionshipUseCase,
+    FetchPredicitonByUserUseCase,
   ],
 })
 export class HttpModule {}

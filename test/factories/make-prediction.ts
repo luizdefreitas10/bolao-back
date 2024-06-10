@@ -1,5 +1,4 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { MatchProps } from '@/domain/project/enterprise/entities/match'
 import {
   Prediction,
   PredictionProps,
@@ -9,7 +8,7 @@ import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { Injectable } from '@nestjs/common'
 
 export function makePrediction(
-  override: Partial<MatchProps> = {},
+  override: Partial<PredictionProps> = {},
   id?: UniqueEntityID,
 ) {
   const prediction = Prediction.create(

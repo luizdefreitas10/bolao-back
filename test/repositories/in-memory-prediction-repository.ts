@@ -9,6 +9,14 @@ export class InMemoryPredictionRepository implements PredictionRepository {
     return prediction
   }
 
+  async findByUser(userId: string): Promise<Prediction[]> {
+    const prediction = this.items.filter(
+      (item) => item.userId.toString() === userId,
+    )
+
+    return prediction
+  }
+
   async findById(id: string): Promise<Prediction | null> {
     const prediction = this.items.find((item) => item.id.toString() === id)
 
