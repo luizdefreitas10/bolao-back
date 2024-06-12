@@ -32,7 +32,7 @@ describe('Fetch Prediction By User', () => {
     sut = new FetchPredicitonByUserUseCase(inMemoryPredictionRepository)
   })
 
-  it('should be able to fetch matchs round', async () => {
+  it('should be able to fetch preditcions', async () => {
     const newUser = makeUser()
     const user = await inMemoryUserRepository.create(newUser)
 

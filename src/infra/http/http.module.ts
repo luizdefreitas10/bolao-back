@@ -67,6 +67,12 @@ import { FetchRoundsActiveChampionshipController } from './controllers/round/fet
 import { FetchRoundsActiveChampionshipUseCase } from '@/domain/project/application/use-cases/fetch-rounds-active-championship'
 import { FetchPredictionsController } from './controllers/prediction/fetch-predictions-by-user'
 import { FetchPredicitonByUserUseCase } from '@/domain/project/application/use-cases/fetch-predictions-by-user'
+import { CreatePlayerController } from './controllers/player/create-player.controller'
+import { CreatePlayerUseCase } from '@/domain/project/application/use-cases/create-player'
+import { FetchPlayersController } from './controllers/player/fetch-players-by-round-and-teams'
+import { FetchPlayerByTeamAndRoundUseCase } from '@/domain/project/application/use-cases/fetch-players-by-round-and-team'
+import { CreatePredictionLastPlayerController } from './controllers/prediciton-last-player/create-prediction-last-player'
+import { CreatePredictionLastPlayerUseCase } from '@/domain/project/application/use-cases/create-prediction-last-player'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, JobsModule],
@@ -101,6 +107,9 @@ import { FetchPredicitonByUserUseCase } from '@/domain/project/application/use-c
     FetchMatchByRoundController,
     FetchRoundsActiveChampionshipController,
     FetchPredictionsController,
+    CreatePlayerController,
+    FetchPlayersController,
+    CreatePredictionLastPlayerController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -138,6 +147,9 @@ import { FetchPredicitonByUserUseCase } from '@/domain/project/application/use-c
 
     FetchRoundsActiveChampionshipUseCase,
     FetchPredicitonByUserUseCase,
+    CreatePlayerUseCase,
+    FetchPlayerByTeamAndRoundUseCase,
+    CreatePredictionLastPlayerUseCase,
   ],
 })
 export class HttpModule {}

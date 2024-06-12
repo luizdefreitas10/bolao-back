@@ -1,16 +1,18 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
-import { TeamStatus } from '@prisma/client'
+import { PlayerStatus } from '@prisma/client'
 
-export interface TeamProps {
+export interface PlayerProps {
   name: string
   createdAt: Date
   updatedAt?: Date | null
-  status: TeamStatus
+  teamId: UniqueEntityID
+  roundId: UniqueEntityID
+  status: PlayerStatus
 }
 
-export class Team extends Entity<TeamProps> {
+export class Player extends Entity<PlayerProps> {
   get name() {
     return this.props.name
   }
@@ -27,23 +29,35 @@ export class Team extends Entity<TeamProps> {
     return this.props.updatedAt
   }
 
+  get teamId() {
+    return this.props.teamId
+  }
+
+  get roundId() {
+    return this.props.roundId
+  }
+
   get status() {
     return this.props.status
   }
 
-  set status(status) {
+  set status(status: PlayerStatus) {
     this.props.status = status
   }
 
-  static create(props: Optional<TeamProps, 'createdAt'>, id?: UniqueEntityID) {
-    const team = new Team(
+  static create(
+    props: Optional<PlayerProps, 'createdAt' | 'status'>,
+    id?: UniqueEntityID,
+  ) {
+    const player = new Player(
       {
         ...props,
         createdAt: props.createdAt ?? new Date(),
+        status: props.status ?? 'ACTIVE',
       },
       id,
     )
 
-    return team
+    return player
   }
 }
