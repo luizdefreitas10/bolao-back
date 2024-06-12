@@ -15,6 +15,10 @@ import { PredictionRepository } from '@/domain/project/application/repositories/
 import { PrismaPredictionRepository } from './prisma/repositories/prisma-predictions-repository'
 import { ChampionshipRepository } from '@/domain/project/application/repositories/championship-repository'
 import { PrismaChampionshipRepository } from './prisma/repositories/prisma-championship-repository'
+import { PlayerRepository } from '@/domain/project/application/repositories/player-repository'
+import { PrismaPlayerRepository } from './prisma/repositories/prisma-player-repository'
+import { PredictionLastPlayerRepository } from '@/domain/project/application/repositories/prediction-last-player-repository'
+import { PrismaPredictionLastPlayerRepository } from './prisma/repositories/prisma-prediction-last-player-repository'
 
 @Module({
   providers: [
@@ -47,6 +51,14 @@ import { PrismaChampionshipRepository } from './prisma/repositories/prisma-champ
       provide: ChampionshipRepository,
       useClass: PrismaChampionshipRepository,
     },
+    {
+      provide: PlayerRepository,
+      useClass: PrismaPlayerRepository,
+    },
+    {
+      provide: PredictionLastPlayerRepository,
+      useClass: PrismaPredictionLastPlayerRepository,
+    },
   ],
   exports: [
     PrismaService,
@@ -57,6 +69,8 @@ import { PrismaChampionshipRepository } from './prisma/repositories/prisma-champ
     TeamRepository,
     RoundRepository,
     ChampionshipRepository,
+    PlayerRepository,
+    PredictionLastPlayerRepository,
   ],
 })
 export class DatabaseModule {}

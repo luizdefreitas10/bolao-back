@@ -11,21 +11,22 @@ datasource db {
 }
 
 model User {
-  id                       String             @id @default(uuid())
+  id                       String                 @id @default(uuid())
   fullName                 String
-  userName                 String?            @unique
+  userName                 String?                @unique
   instagram                String?
   password                 String?
   email                    String?
-  role                     UserRole           @default(USER)
-  phone                    String             @unique
+  role                     UserRole               @default(USER)
+  phone                    String                 @unique
   createdAt                DateTime
   updatedAt                DateTime?
-  isVerified               Boolean            @default(false)
+  isVerified               Boolean                @default(false)
   verificationCode         VerificationCode[]
   lastPasswordModification DateTime?
   isEmailVerified          Boolean?
-  predictions               Prediction[]
+  predictions              Prediction[]
+  PredictionLastPlayer     PredictionLastPlayer[]
 
   @@map("users")
 }
@@ -52,24 +53,41 @@ model Championship {
 }
 
 model Round {
-  id             String       @id @default(uuid())
-  name           String
-  status         RoundStatus  @default(WAITING)
-  createdAt      DateTime
-  updatedAt      DateTime?
-  matchs         Match[]
-  championship   Championship @relation(fields: [championshipId], references: [id])
-  championshipId String
+  id                   String                 @id @default(uuid())
+  name                 String
+  status               RoundStatus            @default(WAITING)
+  createdAt            DateTime
+  updatedAt            DateTime?
+  matchs               Match[]
+  championship         Championship           @relation(fields: [championshipId], references: [id])
+  championshipId       String
+  Player               Player[]
+  PredictionLastPlayer PredictionLastPlayer[]
 }
 
 model Team {
-  id         String     @id @default(uuid())
-  name       String     @unique
-  createdAt  DateTime
-  updatedAt  DateTime?
-  matchsHome Match[]    @relation("teamHome")
-  matchsAway Match[]    @relation("teamAway")
-  status     TeamStatus @default(ACTIVE)
+  id                   String                 @id @default(uuid())
+  name                 String                 @unique
+  createdAt            DateTime
+  updatedAt            DateTime?
+  matchsHome           Match[]                @relation("teamHome")
+  matchsAway           Match[]                @relation("teamAway")
+  status               TeamStatus             @default(ACTIVE)
+  Player               Player[]
+  PredictionLastPlayer PredictionLastPlayer[]
+}
+
+model Player {
+  id                   String                 @id @default(uuid())
+  name                 String                 @unique
+  team                 Team                   @relation(fields: [teamId], references: [id])
+  teamId               String
+  round                Round                  @relation(fields: [roundId], references: [id])
+  roundId              String
+  createdAt            DateTime
+  updatedAt            DateTime?
+  status               PlayerStatus
+  predictionLastPlayer PredictionLastPlayer[]
 }
 
 model Prediction {
@@ -82,6 +100,21 @@ model Prediction {
   matchId        String
   createdAt      DateTime
   updatedAt      DateTime?
+}
+
+model PredictionLastPlayer {
+  id        String                     @id @default(uuid())
+  player    Player                     @relation(fields: [playerId], references: [id])
+  playerId  String
+  user      User                       @relation(fields: [userId], references: [id])
+  userId    String
+  round     Round                      @relation(fields: [roundId], references: [id])
+  roundId   String
+  team      Team                       @relation(fields: [teamId], references: [id])
+  teamId    String
+  createdAt DateTime
+  updatedAt DateTime?
+  status    PredictionLastPlayerStatus
 }
 
 model Match {
@@ -133,6 +166,16 @@ enum UserRole {
 }
 
 enum TeamStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum PlayerStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum PredictionLastPlayerStatus {
   ACTIVE
   INACTIVE
 }
