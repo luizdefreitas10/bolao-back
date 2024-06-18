@@ -9,4 +9,7 @@ export class UpdateScoreDto {
 
   @ApiProperty()
   scoreAway!: number
+
+  @ApiProperty()
+  lastPlayerId!: string
 }

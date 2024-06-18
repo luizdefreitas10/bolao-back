@@ -4,6 +4,7 @@ export class PlayerPresenter {
   static toHTTP(player: Player) {
     return {
       name: player.name,
+      id: player.id.toString(),
     }
   }
 }

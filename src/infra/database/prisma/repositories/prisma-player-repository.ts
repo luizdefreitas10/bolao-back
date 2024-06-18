@@ -77,4 +77,21 @@ export class PrismaPlayerRepository implements PlayerRepository {
 
     return players.map(PrismaPlayerMapper.toDomain)
   }
+
+  async findByTeamAndRoundAndName(
+    teamId: string,
+    roundId: string,
+    name: string,
+  ): Promise<Player[]> {
+    const players = await this.prisma.player.findMany({
+      where: {
+        teamId,
+        roundId,
+        name,
+        status: 'ACTIVE',
+      },
+    })
+
+    return players.map(PrismaPlayerMapper.toDomain)
+  }
 }

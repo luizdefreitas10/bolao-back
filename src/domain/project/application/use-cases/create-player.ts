@@ -27,9 +27,10 @@ export class CreatePlayerUseCase {
     teamId,
     roundId,
   }: CreatePlayerUseCaseRequest): Promise<CreatePlayerUseCaseResponse> {
-    const existPlayer = await this.playerRepository.findByTeamAndRound(
+    const existPlayer = await this.playerRepository.findByTeamAndRoundAndName(
       teamId,
       roundId,
+      name,
     )
 
     if (existPlayer.length > 0) {

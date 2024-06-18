@@ -7,6 +7,7 @@ import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { ChampionshipFactory } from 'test/factories/make-championship'
 import { MatchFactory } from 'test/factories/make-match'
+import { PlayerFactory } from 'test/factories/make-player'
 import { RoundFactory } from 'test/factories/make-round'
 import { TeamFactory } from 'test/factories/make-team'
 import { UserFactory } from 'test/factories/make-user'
@@ -20,6 +21,7 @@ describe('Update Match Score (E2E)', () => {
   let userFactory: UserFactory
   let championshipFactory: ChampionshipFactory
   let matchFactory: MatchFactory
+  let playerFactory: PlayerFactory
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -30,6 +32,7 @@ describe('Update Match Score (E2E)', () => {
         UserFactory,
         ChampionshipFactory,
         MatchFactory,
+        PlayerFactory,
       ],
     }).compile()
 
@@ -40,6 +43,7 @@ describe('Update Match Score (E2E)', () => {
     userFactory = moduleRef.get(UserFactory)
     championshipFactory = moduleRef.get(ChampionshipFactory)
     matchFactory = moduleRef.get(MatchFactory)
+    playerFactory = moduleRef.get(PlayerFactory)
     jwt = moduleRef.get(JwtService)
 
     await app.init()
@@ -47,6 +51,7 @@ describe('Update Match Score (E2E)', () => {
 
   test('[PUT] /match', async () => {
     const championship = await championshipFactory.makePrismaChampionship()
+
     const user = await userFactory.makePrismaUserAdmin()
     const accessToken = jwt.sign({ sub: user.id.toString(), role: 'ADMIN' })
     const round = await roundFactory.makePrismaRound({
@@ -57,6 +62,11 @@ describe('Update Match Score (E2E)', () => {
     })
     const teamAway = await teamFactory.makePrismaTeam({
       name: 'Time 2',
+    })
+    const player = await playerFactory.makePrismaPlayer({
+      name: 'Jogador',
+      roundId: round.id,
+      teamId: teamHome.id,
     })
     const today = new Date()
     const dateMatch = new Date(today.setDate(today.getDate() + 10))
@@ -77,6 +87,7 @@ describe('Update Match Score (E2E)', () => {
         matchId: match.id.toString(),
         scoreHome: 1,
         scoreAway: 0,
+        lastPlayerId: player.id.toString(),
       })
     // console.log(response)
     expect(response.statusCode).toBe(201)

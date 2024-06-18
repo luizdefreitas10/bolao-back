@@ -17,6 +17,7 @@ export function makePrediction(
       userId: new UniqueEntityID(),
       predictionHome: 0,
       predictionAway: 0,
+      predictionType: 'SCORE',
       ...override,
     },
     id,

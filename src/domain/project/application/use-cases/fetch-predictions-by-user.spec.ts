@@ -60,6 +60,7 @@ describe('Fetch Prediction By User', () => {
       userId: user.id,
       predictionAway: 0,
       predictionHome: 1,
+      predictionType: 'SCORE',
     })
 
     await inMemoryPredictionRepository.create(newPrediction)

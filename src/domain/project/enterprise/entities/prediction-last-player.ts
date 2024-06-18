@@ -3,6 +3,14 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 import { PredictionLastPlayerStatus } from '@prisma/client'
 
+export type TeamPlayerPredictionProps = {
+  name: string
+}
+
+export type PlayerPredictionProps = {
+  name: string
+  team: TeamPlayerPredictionProps
+}
 export interface PredictionLastPlayerProps {
   createdAt: Date
   updatedAt?: Date | null
@@ -11,9 +19,14 @@ export interface PredictionLastPlayerProps {
   userId: UniqueEntityID
   playerId: UniqueEntityID
   status: PredictionLastPlayerStatus
+  player?: PlayerPredictionProps | null
 }
 
 export class PredictionLastPlayer extends Entity<PredictionLastPlayerProps> {
+  get player() {
+    return this.props.player
+  }
+
   get playerId() {
     return this.props.playerId
   }

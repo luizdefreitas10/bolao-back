@@ -1,19 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { PredictionType } from '@prisma/client'
 
-export class CreatePredictionDto {
+export class CreatePredictionsDto {
   @ApiProperty()
   matchId!: string
 
   @ApiProperty()
-  predictionHome?: number
+  predictionHome!: number
 
   @ApiProperty()
-  predictionAway?: number
+  predictionAway!: number
 
   @ApiProperty()
-  predictionType!: PredictionType
-
-  @ApiProperty()
-  playerId?: string
+  playerId!: string
 }

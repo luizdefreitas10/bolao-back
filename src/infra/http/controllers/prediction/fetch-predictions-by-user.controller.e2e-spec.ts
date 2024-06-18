@@ -51,7 +51,7 @@ describe('Fetch Prediction (E2E)', () => {
     await app.init()
   })
 
-  test('[GET] /predictions', async () => {
+  test('[GET] /prediction', async () => {
     const championship = await championshipFactory.makePrismaChampionship()
     const user = await userFactory.makePrismaUserAdmin()
     const accessToken = jwt.sign({ sub: user.id.toString(), role: 'ADMIN' })
@@ -84,7 +84,7 @@ describe('Fetch Prediction (E2E)', () => {
     })
 
     const response = await request(app.getHttpServer())
-      .get('/predictions')
+      .get('/prediction')
       .set('Authorization', `Bearer ${accessToken}`)
       .send()
 

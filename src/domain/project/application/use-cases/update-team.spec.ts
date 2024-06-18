@@ -19,7 +19,7 @@ describe('Update team', () => {
     const team = Team.create({
       name: originalTeamName,
       createdAt: new Date(),
-      status: 'active',
+      status: 'ACTIVE',
     })
 
     await inMemoryTeamRepository.create(team)
