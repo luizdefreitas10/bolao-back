@@ -1,6 +1,6 @@
 import { Either, right } from '@/core/either'
 import { Injectable } from '@nestjs/common'
-import { PlayerRepository } from '../repositories/Player-repository'
+import { PlayerRepository } from '../repositories/player-repository'
 import { Player } from '../../enterprise/entities/Player'
 
 interface FetchPlayerByRoundUseCaseRequest {

@@ -10,4 +10,10 @@ export abstract class PlayerRepository {
     teamId: string,
     roundId: string,
   ): Promise<Player[]>
+
+  abstract findByTeamAndRoundAndName(
+    teamId: string,
+    roundId: string,
+    name: string,
+  ): Promise<Player[]>
 }

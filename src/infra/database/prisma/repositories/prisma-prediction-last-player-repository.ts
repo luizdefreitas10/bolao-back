@@ -63,9 +63,29 @@ export class PrismaPredictionLastPlayerRepository
         userId,
         status: 'ACTIVE',
       },
+      select: {
+        id: true,
+        createdAt: true,
+        roundId: true,
+        status: true,
+        teamId: true,
+        updatedAt: true,
+        userId: true,
+        playerId: true,
+        player: {
+          select: {
+            name: true,
+            team: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
     })
 
-    return predictions.map(PrismaPredictionLastPlayerMapper.toDomain)
+    return predictions.map(PrismaPredictionLastPlayerMapper.toDomainWithPlayer)
   }
 
   async remove(id: string): Promise<void> {

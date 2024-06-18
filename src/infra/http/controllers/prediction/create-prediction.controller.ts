@@ -10,18 +10,27 @@ import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { ApiTags } from '@nestjs/swagger'
 import { CreatePredictionDto } from './dto/create-prediction-dto'
 import { CreatePredictionUseCase } from '@/domain/project/application/use-cases/create-prediction'
-import { Roles } from '@/infra/auth/roles.decorator'
 import { CurrentUser } from '@/infra/auth/currrent-user.decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
 
+const PredictionTypeEnum = z.enum(['SCORE', 'PLAYER'])
+
 const createPredictionBodySchema = z.object({
   matchId: z.string(),
-  predictionHome: z.number().refine((value) => value >= 0, {
-    message: 'O palpite deve ser maior ou igual a 0.',
-  }),
-  predictionAway: z.number().refine((value) => value >= 0, {
-    message: 'O palpite deve ser maior ou igual a 0.',
-  }),
+  predictionHome: z
+    .number()
+    .refine((value) => value >= 0, {
+      message: 'O palpite deve ser maior ou igual a 0.',
+    })
+    .optional(),
+  predictionAway: z
+    .number()
+    .refine((value) => value >= 0, {
+      message: 'O palpite deve ser maior ou igual a 0.',
+    })
+    .optional(),
+  predictionType: PredictionTypeEnum,
+  playerId: z.string().optional(),
 })
 
 const bodyValidationPipe = new ZodValidationPipe(createPredictionBodySchema)
@@ -37,13 +46,21 @@ export class CreatePredictionController {
     @Body(bodyValidationPipe) body: CreatePredictionDto,
     @CurrentUser() user: UserPayload,
   ) {
-    const { matchId, predictionAway, predictionHome } = body
-
+    const {
+      matchId,
+      predictionAway,
+      predictionHome,
+      predictionType,
+      playerId,
+    } = body
+    console.log(user.sub)
     const result = await this.createPrediction.execute({
       predictionAway,
       predictionHome,
       matchId,
       userId: user.sub,
+      predictionType,
+      playerId,
     })
 
     if (result.isLeft()) {

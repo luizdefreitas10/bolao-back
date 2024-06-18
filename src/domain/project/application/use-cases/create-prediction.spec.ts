@@ -17,6 +17,7 @@ describe('Create new prediction', () => {
       userId: '1',
       predictionAway: 0,
       predictionHome: 1,
+      predictionType: 'SCORE',
     })
 
     expect(result.isRight()).toBe(true)

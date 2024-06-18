@@ -142,9 +142,7 @@ import { CreatePredictionLastPlayerUseCase } from '@/domain/project/application/
     FetchMatchUseCase,
     FetchMatchesByStatusUseCase,
     FetchMatchByRoundUseCase,
-
     FetchActiveMatchesUseCase,
-
     FetchRoundsActiveChampionshipUseCase,
     FetchPredicitonByUserUseCase,
     CreatePlayerUseCase,

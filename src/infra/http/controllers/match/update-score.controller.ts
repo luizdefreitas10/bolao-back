@@ -23,6 +23,7 @@ const updateScoreBodySchema = z.object({
   scoreAway: z.number().refine((value) => value >= 0, {
     message: 'O placar deve ser maior ou igual a 0.',
   }),
+  lastPlayerId: z.string(),
 })
 
 const bodyValidationPipe = new ZodValidationPipe(updateScoreBodySchema)
@@ -36,12 +37,13 @@ export class UpdateScoreController {
   @HttpCode(201)
   @Roles(['ADMIN'])
   async handle(@Body(bodyValidationPipe) body: UpdateScoreDto) {
-    const { matchId, scoreAway, scoreHome } = body
+    const { matchId, scoreAway, scoreHome, lastPlayerId } = body
 
     const result = await this.updateScore.execute({
       matchId,
       scoreHome,
       scoreAway,
+      lastPlayerId,
     })
 
     if (result.isLeft()) {

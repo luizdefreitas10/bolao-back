@@ -79,7 +79,7 @@ model Team {
 
 model Player {
   id                   String                 @id @default(uuid())
-  name                 String                 @unique
+  name                 String
   team                 Team                   @relation(fields: [teamId], references: [id])
   teamId               String
   round                Round                  @relation(fields: [roundId], references: [id])
@@ -88,16 +88,21 @@ model Player {
   updatedAt            DateTime?
   status               PlayerStatus
   predictionLastPlayer PredictionLastPlayer[]
+  Prediction           Prediction[]
+  Match                Match[]
 }
 
 model Prediction {
-  id             String    @id @default(uuid())
-  predictionHome Int
-  predictionAway Int
-  user           User      @relation(fields: [userId], references: [id])
+  id             String         @id @default(uuid())
+  predictionHome Int?
+  predictionAway Int?
+  user           User           @relation(fields: [userId], references: [id])
   userId         String
-  match          Match     @relation(fields: [matchId], references: [id])
+  match          Match          @relation(fields: [matchId], references: [id])
   matchId        String
+  predictionType PredictionType
+  lastPlayer     Player?        @relation(fields: [lastPlayerId], references: [id])
+  lastPlayerId   String?
   createdAt      DateTime
   updatedAt      DateTime?
 }
@@ -118,20 +123,22 @@ model PredictionLastPlayer {
 }
 
 model Match {
-  id          String       @id @default(uuid())
-  scoreHome   Int
-  scoreAway   Int
-  teamHome    Team         @relation("teamHome", fields: [teamIdHome], references: [id])
-  teamIdHome  String
-  teamAway    Team         @relation("teamAway", fields: [teamIdAway], references: [id])
-  teamIdAway  String
-  round       Round        @relation(fields: [roundId], references: [id])
-  roundId     String
-  status      MatchStatus  @default(WAITING)
-  date        DateTime
-  createdAt   DateTime
-  updatedAt   DateTime?
-  predictions Prediction[]
+  id           String       @id @default(uuid())
+  scoreHome    Int
+  scoreAway    Int
+  teamHome     Team         @relation("teamHome", fields: [teamIdHome], references: [id])
+  teamIdHome   String
+  teamAway     Team         @relation("teamAway", fields: [teamIdAway], references: [id])
+  teamIdAway   String
+  round        Round        @relation(fields: [roundId], references: [id])
+  roundId      String
+  status       MatchStatus  @default(WAITING)
+  date         DateTime
+  createdAt    DateTime
+  updatedAt    DateTime?
+  lastPlayer   Player?      @relation(fields: [lastPlayerId], references: [id])
+  lastPlayerId String?
+  predictions  Prediction[]
 
   @@unique([teamIdHome, teamIdAway, date], name: "unique_team_match_date")
 }
@@ -178,4 +185,9 @@ enum PlayerStatus {
 enum PredictionLastPlayerStatus {
   ACTIVE
   INACTIVE
+}
+
+enum PredictionType {
+  SCORE
+  PLAYER
 }

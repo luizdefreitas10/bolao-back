@@ -10,12 +10,17 @@ export interface MatchProps {
   teamIdAway: UniqueEntityID
   roundId: UniqueEntityID
   status: MatchStatus
+  lastPlayerId?: UniqueEntityID | null
   date: Date
   createdAt: Date
   updatedAt?: Date | null
 }
 
 export class Match extends Entity<MatchProps> {
+  get lastPlayerId() {
+    return this.props.lastPlayerId
+  }
+
   get status() {
     return this.props.status
   }

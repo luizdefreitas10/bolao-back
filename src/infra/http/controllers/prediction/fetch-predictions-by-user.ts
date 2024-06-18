@@ -11,8 +11,8 @@ import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { FetchPredicitonByUserUseCase } from '@/domain/project/application/use-cases/fetch-predictions-by-user'
 import { PredictionsPresenter } from '../../presenters/predictions-presenter'
 
-@ApiTags('prediction')
-@Controller('/predictions')
+@ApiTags('predictions')
+@Controller('/prediction')
 export class FetchPredictionsController {
   constructor(private fetchPredictions: FetchPredicitonByUserUseCase) {}
 

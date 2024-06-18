@@ -8,6 +8,7 @@ interface UpdateScoreUseCaseRequest {
   matchId: string
   scoreHome: number
   scoreAway: number
+  lastPlayerId: string
 }
 
 type UpdateScoreUseCaseResponse = Either<
@@ -23,17 +24,23 @@ export class UpdateScoreUseCase {
     matchId,
     scoreHome,
     scoreAway,
+    lastPlayerId,
   }: UpdateScoreUseCaseRequest): Promise<UpdateScoreUseCaseResponse> {
     const matchAlreadyExist = await this.matchRepository.findById(matchId)
 
     if (!matchAlreadyExist) {
       return left(new MatchNotFoundError())
     }
-    if (matchAlreadyExist.status === 'WAITING') {
-      return left(new MatchNotInProgressError())
-    }
+    // if (matchAlreadyExist.status === 'WAITING') {
+    //   return left(new MatchNotInProgressError())
+    // }
 
-    await this.matchRepository.updateScore(matchId, scoreHome, scoreAway)
+    await this.matchRepository.updatResult(
+      matchId,
+      scoreHome,
+      scoreAway,
+      lastPlayerId,
+    )
 
     return right(null)
   }

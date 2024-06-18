@@ -3,9 +3,37 @@ import {
   Prisma,
 } from '@prisma/client'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { PredictionLastPlayer } from '@/domain/project/enterprise/entities/prediction-last-player'
+import {
+  PredictionLastPlayer,
+  TeamPlayerPredictionProps,
+} from '@/domain/project/enterprise/entities/prediction-last-player'
+
+type PredictionLastPlayerProps = PrismaPredictionLastPlayer & {
+  player: {
+    name: string
+    team: TeamPlayerPredictionProps
+  }
+}
 
 export class PrismaPredictionLastPlayerMapper {
+  static toDomainWithPlayer(
+    raw: PredictionLastPlayerProps,
+  ): PredictionLastPlayer {
+    return PredictionLastPlayer.create(
+      {
+        createdAt: raw.createdAt,
+        updatedAt: raw.updatedAt,
+        status: raw.status,
+        roundId: new UniqueEntityID(raw.roundId),
+        teamId: new UniqueEntityID(raw.teamId),
+        playerId: new UniqueEntityID(raw.playerId),
+        userId: new UniqueEntityID(raw.userId),
+        player: raw.player,
+      },
+      new UniqueEntityID(raw.id),
+    )
+  }
+
   static toDomain(raw: PrismaPredictionLastPlayer): PredictionLastPlayer {
     return PredictionLastPlayer.create(
       {

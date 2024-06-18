@@ -4,7 +4,11 @@ import {
   MatchStatus,
 } from '@prisma/client'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Prediction } from '@/domain/project/enterprise/entities/prediction'
+import {
+  PlayerProps,
+  Prediction,
+  RoundMatchProps,
+} from '@/domain/project/enterprise/entities/prediction'
 import { TeamPropsMatch } from '@/domain/project/enterprise/entities/round'
 
 type PredictionProps = PrismaPrediction & {
@@ -15,11 +19,17 @@ type PredictionProps = PrismaPrediction & {
     teamAway: TeamPropsMatch
     date: Date
     status: MatchStatus
+    round: RoundMatchProps
+    roundId: string
+    lastPlayeId?: string
+    lastPlayer?: { name?: string | null } | null
   }
+  lastPlayer?: PlayerProps | null
 }
 
 export class PrismaPredictionMapper {
   static toDomainWithMatch(raw: PredictionProps): Prediction {
+    console.log(raw)
     return Prediction.create(
       {
         predictionAway: raw.predictionAway,
@@ -29,6 +39,11 @@ export class PrismaPredictionMapper {
         updatedAt: raw.updatedAt,
         userId: new UniqueEntityID(raw.userId),
         matchId: new UniqueEntityID(raw.matchId),
+        lastPlayerId: raw.lastPlayerId
+          ? new UniqueEntityID(raw.lastPlayerId)
+          : undefined,
+        predictionType: raw.predictionType,
+        lastPlayer: raw.lastPlayer,
       },
       new UniqueEntityID(raw.id),
     )
@@ -43,6 +58,7 @@ export class PrismaPredictionMapper {
         userId: new UniqueEntityID(raw.userId),
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
+        predictionType: raw.predictionType,
       },
       new UniqueEntityID(raw.id),
     )
@@ -57,6 +73,8 @@ export class PrismaPredictionMapper {
       userId: prediction.userId.toString(),
       predictionAway: prediction.predictionAway,
       predictionHome: prediction.predictionHome,
+      predictionType: prediction.predictionType,
+      lastPlayerId: prediction.lastPlayerId?.toString(),
       createdAt: prediction.createdAt,
       updatedAt: prediction.updatedAt,
     }

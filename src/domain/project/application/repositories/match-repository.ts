@@ -16,10 +16,11 @@ export abstract class MatchRepository {
     params: PaginationParams,
   ): Promise<Match[]>
 
-  abstract updateScore(
+  abstract updatResult(
     matchId: string,
     scoreHome: number,
     scoreAway: number,
+    lastPlayerId: string,
   ): Promise<void>
 
   abstract updateMatchDate(matchId: string, date: Date): Promise<void>

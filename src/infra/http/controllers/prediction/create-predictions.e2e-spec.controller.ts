@@ -7,6 +7,7 @@ import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { ChampionshipFactory } from 'test/factories/make-championship'
 import { MatchFactory } from 'test/factories/make-match'
+import { PlayerFactory } from 'test/factories/make-player'
 import { PredictionFactory } from 'test/factories/make-prediction'
 import { RoundFactory } from 'test/factories/make-round'
 import { TeamFactory } from 'test/factories/make-team'
@@ -21,6 +22,7 @@ describe('Create Prediction (E2E)', () => {
   let userFactory: UserFactory
   let championshipFactory: ChampionshipFactory
   let matchFactory: MatchFactory
+  let playerFactory: PlayerFactory
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -32,6 +34,7 @@ describe('Create Prediction (E2E)', () => {
         ChampionshipFactory,
         PredictionFactory,
         MatchFactory,
+        PlayerFactory,
       ],
     }).compile()
 
@@ -42,13 +45,13 @@ describe('Create Prediction (E2E)', () => {
     userFactory = moduleRef.get(UserFactory)
     championshipFactory = moduleRef.get(ChampionshipFactory)
     matchFactory = moduleRef.get(MatchFactory)
-
+    playerFactory = moduleRef.get(PlayerFactory)
     jwt = moduleRef.get(JwtService)
 
     await app.init()
   })
 
-  test('[POST] /prediction', async () => {
+  test('[POST] /predictions', async () => {
     const championship = await championshipFactory.makePrismaChampionship()
     const user = await userFactory.makePrismaUserAdmin()
     const accessToken = jwt.sign({ sub: user.id.toString(), role: 'ADMIN' })
@@ -60,6 +63,11 @@ describe('Create Prediction (E2E)', () => {
     })
     const teamAway = await teamFactory.makePrismaTeam({
       name: 'Time 2',
+    })
+    const player = await playerFactory.makePrismaPlayer({
+      name: 'Jogador',
+      roundId: round.id,
+      teamId: teamAway.id,
     })
     const today = new Date()
     const newData = new Date(today.setDate(today.getDate() + 10))
@@ -73,13 +81,13 @@ describe('Create Prediction (E2E)', () => {
     })
 
     const response = await request(app.getHttpServer())
-      .post('/prediction')
+      .post('/predictions')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         matchId: newMatch.id.toString(),
         predictionHome: 1,
         predictionAway: 1,
-        predictionType: 'SCORE',
+        playerId: player.id.toString(),
       })
 
     expect(response.statusCode).toBe(201)
