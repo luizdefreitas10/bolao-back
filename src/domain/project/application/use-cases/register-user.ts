@@ -12,7 +12,7 @@ import { FormatUsernameNotValidError } from './errors/format-username-not-valid'
 
 interface RegisterUserUseCaseRequest {
   fullName: string
-  userName: string
+  birthdate: Date
   phone: string
   password: string
   email?: string
@@ -38,20 +38,11 @@ export class RegisterUserUseCase {
 
   async execute({
     fullName,
-    userName,
+    birthdate,
     phone,
     password,
     email,
   }: RegisterUserUseCaseRequest): Promise<RegisterUserUseCaseResponse> {
-    const userNameRegex = /^[a-z0-9_.]+$/
-    if (!userNameRegex.test(userName)) {
-      return left(new FormatUsernameNotValidError())
-    }
-    const userWithSameUser = await this.usersRepository.findByUsername(userName)
-
-    if (userWithSameUser) {
-      return left(new UserAlreadyExistsError(userName))
-    }
     const userWithSamePhone = await this.usersRepository.findByPhone(phone)
 
     if (userWithSamePhone) {
@@ -64,7 +55,7 @@ export class RegisterUserUseCase {
 
     const user = User.create({
       fullName,
-      userName,
+      birthdate,
       phone,
       password: hashedPassword,
       email,

@@ -3,7 +3,6 @@ import {
   Body,
   ConflictException,
   Controller,
-  Get,
   HttpCode,
   Post,
   UsePipes,
@@ -30,8 +29,6 @@ export class CreateAccountController {
   constructor(
     private registerUser: RegisterUserUseCase,
     private sendSms: SendSmsProducer,
-    private sendSmsUsecase: SendSmsUseCase,
-    private envService: EnvService,
   ) {}
 
   @ApiResponse({
@@ -42,7 +39,7 @@ export class CreateAccountController {
   @HttpCode(201)
   @UsePipes(new ZodValidationPipe(createAccountBodySchema))
   async handle(@Body() body: CreateUserDto) {
-    const { fullName, userName, phone, password, email } = body
+    const { fullName, birthdate, phone, password, email } = body
 
     const result = await this.registerUser.execute({
       fullName,

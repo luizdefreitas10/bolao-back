@@ -8,6 +8,7 @@ export interface UserProps {
   password?: string | null
   userName?: string | null
   phone: string
+  birthdate?: Date | null
   createdAt: Date
   updatedAt?: Date | null
   isVerified: boolean
@@ -41,6 +42,10 @@ export class User extends Entity<UserProps> {
 
   get lastPasswordModification() {
     return this.props.lastPasswordModification
+  }
+
+  get birthdate() {
+    return this.props.birthdate
   }
 
   get email() {

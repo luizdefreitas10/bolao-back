@@ -11,7 +11,7 @@ export function makeTeam(
   const team = Team.create(
     {
       name: 'Time 1',
-      status: 'WAITING',
+      status: 'ACTIVE',
       ...override,
     },
     id,

@@ -19,6 +19,7 @@ model User {
   email                    String?
   role                     UserRole               @default(USER)
   phone                    String                 @unique
+  birthdate                DateTime?
   createdAt                DateTime
   updatedAt                DateTime?
   isVerified               Boolean                @default(false)

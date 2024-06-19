@@ -1,7 +1,12 @@
+import { differenceInYears } from 'date-fns'
 import { z } from 'zod'
 export const createAccountBodySchema = z.object({
   fullName: z.string(),
-  userName: z.string(),
+  birthdate: z.coerce
+    .date()
+    .refine((date) => differenceInYears(new Date(), date) >= 14, {
+      message: 'Usuário deve ter no mínimo 14 anos.',
+    }),
   phone: z.string().refine(
     (telefone) => {
       const regex =
