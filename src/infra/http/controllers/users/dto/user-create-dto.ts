@@ -5,7 +5,7 @@ export class CreateUserDto {
   fullName!: string
 
   @ApiProperty()
-  birthdate!: string
+  birthdate!: Date
 
   @ApiProperty()
   phone!: string

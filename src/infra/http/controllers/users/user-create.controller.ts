@@ -43,7 +43,7 @@ export class CreateAccountController {
 
     const result = await this.registerUser.execute({
       fullName,
-      userName,
+      birthdate,
       phone,
       password,
       email,
