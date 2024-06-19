@@ -6,7 +6,7 @@ import { Encrypter } from '../cryptography/encrypter'
 import { WrongCredentialsError } from './errors/wrong-credentials-error'
 
 interface AuthenticateUserUseCaseRequest {
-  userName: string
+  phone: string
   password: string
 }
 
@@ -28,10 +28,10 @@ export class AuthenticateUserUseCase {
   ) {}
 
   async execute({
-    userName,
+    phone,
     password,
   }: AuthenticateUserUseCaseRequest): Promise<AuthenticateUserUseCaseResponse> {
-    const user = await this.userRepository.findByUsername(userName)
+    const user = await this.userRepository.findByPhone(phone)
 
     if (!user || !user.password) {
       return left(new WrongCredentialsError())

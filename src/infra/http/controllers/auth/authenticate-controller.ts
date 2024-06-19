@@ -15,7 +15,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger'
 import { AuthDto } from './dto/auth-dto'
 
 const authenticateBodySchema = z.object({
-  userName: z.string(),
+  phone: z.string(),
   password: z.string(),
 })
 
@@ -32,10 +32,10 @@ export class AuthenticateController {
   })
   @Post()
   async handle(@Body(bodyValidationPipe) body: AuthDto) {
-    const { userName, password } = body
+    const { phone, password } = body
 
     const result = await this.authenticateUser.execute({
-      userName,
+      phone,
       password,
     })
 
@@ -50,7 +50,7 @@ export class AuthenticateController {
       }
     }
 
-    const { accessToken, phone, userId } = result.value
+    const { accessToken, phone: phoneUser, userId } = result.value
     if (accessToken) {
       return {
         access_token: accessToken,
@@ -58,7 +58,7 @@ export class AuthenticateController {
     } else if (phone && userId) {
       return {
         userId,
-        phone,
+        phone: phoneUser,
       }
     }
   }

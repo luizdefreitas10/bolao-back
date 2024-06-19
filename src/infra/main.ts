@@ -16,18 +16,19 @@ async function bootstrap() {
   })
 
   const config = new DocumentBuilder()
-    .setTitle('Documentação Swagger - EDS-SCZL')
-    .setDescription('Swagger to EDS-SCZL')
+    .setTitle('Documentação Swagger - Bolão QXUTE')
+    .setDescription('Swagger to Bolão QXUTE')
     .setVersion('1.0')
-    .addServer('https://eds-sczl-api-production.up.railway.app/')
+    .addServer('https://bola-qxute.up.railway.app/')
     .addBearerAuth()
     .build()
 
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('api', app, document)
   app.enableCors({
-    origin: ['http://localhost:3333'],
-    methods: ['GET', 'POST'],
+    origin: ['http://localhost:3333', 'http://localhost:3000'],
+
+    methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
     credentials: true,
   })
 
