@@ -84,7 +84,7 @@ export class PrismaMatchRepository implements MatchRepository {
     matchId: string,
     scoreHome: number,
     scoreAway: number,
-    lastPlayerId: string,
+    lastPlayerId?: string | null,
   ): Promise<void> {
     await this.prisma.match.update({
       where: {
@@ -93,7 +93,7 @@ export class PrismaMatchRepository implements MatchRepository {
       data: {
         scoreHome,
         scoreAway,
-        lastPlayerId,
+        lastPlayerId: lastPlayerId || null,
         status: 'DONE',
       },
     })

@@ -21,14 +21,14 @@ const createPredictionBodySchema = z.object({
   predictionAway: z.number().refine((value) => value >= 0, {
     message: 'O palpite deve ser maior ou igual a 0.',
   }),
-  playerId: z.string(),
+  playerId: z.string().optional().nullable(),
 })
 
 const bodyValidationPipe = new ZodValidationPipe(createPredictionBodySchema)
 
 @ApiTags('prediction')
 @Controller('/predictions')
-export class CreatePredictionController {
+export class CreatePredictionsController {
   constructor(private createPrediction: CreatePredictionUseCase) {}
 
   @Post()
@@ -54,6 +54,14 @@ export class CreatePredictionController {
       }
     }
 
+    const { prediction: predictionScore } = resultPredictionScore.value
+
+    if (!playerId) {
+      return {
+        predictionScoreId: predictionScore.id.toString(),
+      }
+    }
+
     const resultPredictionPlayer = await this.createPrediction.execute({
       playerId,
       matchId,
@@ -69,7 +77,6 @@ export class CreatePredictionController {
       }
     }
 
-    const { prediction: predictionScore } = resultPredictionScore.value
     const { prediction: predictionPlayer } = resultPredictionPlayer.value
 
     return {

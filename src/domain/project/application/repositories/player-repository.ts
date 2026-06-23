@@ -16,4 +16,12 @@ export abstract class PlayerRepository {
     roundId: string,
     name: string,
   ): Promise<Player[]>
+
+  abstract findByTeam(teamId: string): Promise<Player[]>
+
+  abstract syncPlayersForRoundAndTeam(
+    roundId: string,
+    teamId: string,
+    playerNames: string[],
+  ): Promise<Player[]>
 }

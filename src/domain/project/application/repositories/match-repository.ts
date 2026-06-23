@@ -20,7 +20,7 @@ export abstract class MatchRepository {
     matchId: string,
     scoreHome: number,
     scoreAway: number,
-    lastPlayerId: string,
+    lastPlayerId?: string | null,
   ): Promise<void>
 
   abstract updateMatchDate(matchId: string, date: Date): Promise<void>

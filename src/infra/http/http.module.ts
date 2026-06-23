@@ -39,6 +39,7 @@ import { CreateRoundController } from './controllers/round/create-round.controll
 import { CreateRoundUseCase } from '@/domain/project/application/use-cases/create-round'
 import { CreatePredictionUseCase } from '@/domain/project/application/use-cases/create-prediction'
 import { CreatePredictionController } from './controllers/prediction/create-prediction.controller'
+import { CreatePredictionsController } from './controllers/prediction/create-predictions.controller'
 import { CreateChampionshipUseCase } from '@/domain/project/application/use-cases/create-championship'
 import { CreateChampionshipController } from './controllers/championship/create-championship-controller'
 import { CreateMatchController } from './controllers/match/create-match.controller'
@@ -73,6 +74,20 @@ import { FetchPlayersController } from './controllers/player/fetch-players-by-ro
 import { FetchPlayerByTeamAndRoundUseCase } from '@/domain/project/application/use-cases/fetch-players-by-round-and-team'
 import { CreatePredictionLastPlayerController } from './controllers/prediciton-last-player/create-prediction-last-player'
 import { CreatePredictionLastPlayerUseCase } from '@/domain/project/application/use-cases/create-prediction-last-player'
+import { FetchChampionshipsUseCase } from '@/domain/project/application/use-cases/fetch-championships'
+import { FetchChampionshipsController } from './controllers/championship/fetch-championships.controller'
+import { FetchChampionshipsWithWaitingRoundsUseCase } from '@/domain/project/application/use-cases/fetch-championships-with-waiting-rounds'
+import { FetchChampionshipsWithWaitingRoundsController } from './controllers/championship/fetch-championships-with-waiting-rounds.controller'
+import { FetchTeamsUseCase } from '@/domain/project/application/use-cases/fetch-teams'
+import { FetchTeamsController } from './controllers/team/fetch-teams.controller'
+import { FetchRoundsByMatchStatusUseCase } from '@/domain/project/application/use-cases/fetch-rounds-by-match-status'
+import { FetchRoundsByMatchStatusController } from './controllers/round/fetch-rounds-by-match-status.controller'
+import { FetchRoundsByChampionshipAndStatusUseCase } from '@/domain/project/application/use-cases/fetch-rounds-by-championship-and-status'
+import { FetchRoundsByChampionshipAndStatusController } from './controllers/round/fetch-rounds-by-championship-and-status.controller'
+import { FetchPlayersByTeamUseCase } from '@/domain/project/application/use-cases/fetch-players-by-team'
+import { FetchPlayersByTeamController } from './controllers/player/fetch-players-by-team.controller'
+import { UpdatePlayersMatchUseCase } from '@/domain/project/application/use-cases/update-players-match'
+import { UpdatePlayersMatchController } from './controllers/player/update-players-match.controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, JobsModule],
@@ -95,20 +110,28 @@ import { CreatePredictionLastPlayerUseCase } from '@/domain/project/application/
     RemoveMatchController,
     CreateRoundController,
     CreatePredictionController,
+    CreatePredictionsController,
     CreateChampionshipController,
     UpdateChampionshipNameController,
     UpdateChampionshipStatusController,
     RemoveChampionshipController,
     UpdateScoreController,
     FetchRoundsChampionshipController,
+    FetchRoundsByMatchStatusController,
+    FetchRoundsByChampionshipAndStatusController,
     FetchActiveMatchesController,
     FetchMatchController,
     FetchMatchesByStatusController,
     FetchMatchByRoundController,
     FetchRoundsActiveChampionshipController,
+    FetchChampionshipsWithWaitingRoundsController,
+    FetchChampionshipsController,
+    FetchTeamsController,
     FetchPredictionsController,
     CreatePlayerController,
+    UpdatePlayersMatchController,
     FetchPlayersController,
+    FetchPlayersByTeamController,
     CreatePredictionLastPlayerController,
   ],
   providers: [
@@ -148,6 +171,13 @@ import { CreatePredictionLastPlayerUseCase } from '@/domain/project/application/
     CreatePlayerUseCase,
     FetchPlayerByTeamAndRoundUseCase,
     CreatePredictionLastPlayerUseCase,
+    FetchChampionshipsUseCase,
+    FetchChampionshipsWithWaitingRoundsUseCase,
+    FetchTeamsUseCase,
+    FetchRoundsByMatchStatusUseCase,
+    FetchRoundsByChampionshipAndStatusUseCase,
+    FetchPlayersByTeamUseCase,
+    UpdatePlayersMatchUseCase,
   ],
 })
 export class HttpModule {}

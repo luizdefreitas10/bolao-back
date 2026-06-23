@@ -8,7 +8,7 @@ interface UpdateScoreUseCaseRequest {
   matchId: string
   scoreHome: number
   scoreAway: number
-  lastPlayerId: string
+  lastPlayerId?: string
 }
 
 type UpdateScoreUseCaseResponse = Either<

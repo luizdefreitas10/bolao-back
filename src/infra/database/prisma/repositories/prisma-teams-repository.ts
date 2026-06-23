@@ -79,4 +79,17 @@ export class PrismaTeamRepository implements TeamRepository {
     })
     return PrismaTeamMapper.toDomain(newTeam)
   }
+
+  async findMany(): Promise<Team[]> {
+    const teams = await this.prisma.team.findMany({
+      where: {
+        status: 'ACTIVE',
+      },
+      orderBy: {
+        name: 'asc',
+      },
+    })
+
+    return teams.map(PrismaTeamMapper.toDomain)
+  }
 }

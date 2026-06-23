@@ -101,4 +101,143 @@ export class PrismaRoundRepository implements RoundRepository {
     })
     return PrismaRoundMapper.toDomain(newRound)
   }
+
+  async findByMatchStatus(
+    status: import('@prisma/client').MatchStatus,
+  ): Promise<
+    import('@/domain/project/application/repositories/types/admin-round-details').AdminRoundDetails[]
+  > {
+    const rounds = await this.prisma.round.findMany({
+      where: {
+        matchs: {
+          some: {
+            status,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      include: {
+        championship: {
+          select: {
+            name: true,
+          },
+        },
+        matchs: {
+          where: {
+            status,
+          },
+          orderBy: {
+            date: 'asc',
+          },
+          include: {
+            teamHome: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+            teamAway: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+            lastPlayer: {
+              select: {
+                id: true,
+                name: true,
+                team: {
+                  select: {
+                    id: true,
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    })
+
+    return Promise.all(
+      rounds.map(async (round) => ({
+        id: round.id,
+        name: round.name,
+        status: round.status,
+        createdAt: round.createdAt,
+        championship: {
+          name: round.championship.name,
+        },
+        matchs: await Promise.all(
+          round.matchs.map(async (match) => {
+            const roundPlayers = await this.prisma.player.findMany({
+              where: {
+                roundId: round.id,
+                status: 'ACTIVE',
+                teamId: {
+                  in: [match.teamIdHome, match.teamIdAway],
+                },
+              },
+              select: {
+                id: true,
+                name: true,
+                teamId: true,
+              },
+            })
+
+            const teamIdsWithPlayers = [
+              ...new Set(roundPlayers.map((player) => player.teamId)),
+            ]
+
+            let lastPlayerTeam = match.lastPlayer?.team ?? null
+
+            if (!lastPlayerTeam && teamIdsWithPlayers.length === 1) {
+              lastPlayerTeam =
+                teamIdsWithPlayers[0] === match.teamHome.id
+                  ? match.teamHome
+                  : match.teamAway
+            }
+
+            const players = lastPlayerTeam
+              ? roundPlayers.filter(
+                  (player) => player.teamId === lastPlayerTeam!.id,
+                )
+              : roundPlayers
+
+            return {
+              id: match.id,
+              scoreAway: match.scoreAway,
+              scoreHome: match.scoreHome,
+              status: match.status,
+              date: match.date,
+              teamHome: match.teamHome,
+              teamAway: match.teamAway,
+              lastPlayer: match.lastPlayer,
+              lastPlayerTeam,
+              players: players.map(({ id, name }) => ({ id, name })),
+            }
+          }),
+        ),
+      })),
+    )
+  }
+
+  async findByChampionshipIdAndStatus(
+    champId: string,
+    status: RoundStatus,
+  ): Promise<Round[]> {
+    const rounds = await this.prisma.round.findMany({
+      where: {
+        championshipId: champId,
+        status,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
+
+    return rounds.map(PrismaRoundMapper.toDomain)
+  }
 }

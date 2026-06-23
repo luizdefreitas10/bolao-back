@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   HttpCode,
+  NotFoundException,
   Post,
   ConflictException,
 } from '@nestjs/common'
@@ -13,30 +14,51 @@ import { Roles } from '@/infra/auth/roles.decorator'
 import { CreatePlayerDto } from './dto/create-player-dto'
 import { CreatePlayerUseCase } from '@/domain/project/application/use-cases/create-player'
 import { PlayerAlreadyExistsError } from '@/domain/project/application/use-cases/errors/player-already-exist-error'
+import { MatchRepository } from '@/domain/project/application/repositories/match-repository'
 
-const createTeamBodySchema = z.object({
-  name: z.string(),
-  roundId: z.string(),
-  teamId: z.string(),
-})
+const createPlayerBodySchema = z
+  .object({
+    name: z.string(),
+    teamId: z.string(),
+    roundId: z.string().optional(),
+    matchId: z.string().optional(),
+  })
+  .refine((data) => data.roundId || data.matchId, {
+    message: 'roundId ou matchId é obrigatório.',
+  })
 
-const bodyValidationPipe = new ZodValidationPipe(createTeamBodySchema)
+const bodyValidationPipe = new ZodValidationPipe(createPlayerBodySchema)
 
 @ApiTags('player')
 @Controller('/player')
 export class CreatePlayerController {
-  constructor(private createPlayer: CreatePlayerUseCase) {}
+  constructor(
+    private createPlayer: CreatePlayerUseCase,
+    private matchRepository: MatchRepository,
+  ) {}
 
   @Post()
   @HttpCode(201)
   @Roles(['ADMIN'])
   async handle(@Body(bodyValidationPipe) body: CreatePlayerDto) {
-    const { name, roundId, teamId } = body
+    const { name, teamId, roundId, matchId } = body
+
+    let resolvedRoundId = roundId
+
+    if (!resolvedRoundId && matchId) {
+      const match = await this.matchRepository.findById(matchId)
+
+      if (!match) {
+        throw new NotFoundException('Partida não encontrada.')
+      }
+
+      resolvedRoundId = match.roundId.toString()
+    }
 
     const result = await this.createPlayer.execute({
       name,
       teamId,
-      roundId,
+      roundId: resolvedRoundId!,
     })
 
     if (result.isLeft()) {

@@ -94,4 +94,70 @@ export class PrismaPlayerRepository implements PlayerRepository {
 
     return players.map(PrismaPlayerMapper.toDomain)
   }
+
+  async findByTeam(teamId: string): Promise<Player[]> {
+    const players = await this.prisma.player.findMany({
+      where: {
+        teamId,
+        status: 'ACTIVE',
+      },
+      orderBy: {
+        name: 'asc',
+      },
+    })
+
+    return players.map(PrismaPlayerMapper.toDomain)
+  }
+
+  async syncPlayersForRoundAndTeam(
+    roundId: string,
+    teamId: string,
+    playerNames: string[],
+  ): Promise<Player[]> {
+    const normalizedNames = [
+      ...new Set(playerNames.map((name) => name.trim()).filter(Boolean)),
+    ]
+
+    const existingPlayers = await this.prisma.player.findMany({
+      where: {
+        roundId,
+        teamId,
+        status: 'ACTIVE',
+      },
+    })
+
+    for (const player of existingPlayers) {
+      if (!normalizedNames.includes(player.name)) {
+        await this.prisma.player.update({
+          where: { id: player.id },
+          data: { status: 'INACTIVE', updatedAt: new Date() },
+        })
+      }
+    }
+
+    const syncedPlayers: Player[] = []
+
+    for (const name of normalizedNames) {
+      const existing = existingPlayers.find((player) => player.name === name)
+
+      if (existing) {
+        syncedPlayers.push(PrismaPlayerMapper.toDomain(existing))
+        continue
+      }
+
+      const created = await this.prisma.player.create({
+        data: {
+          name,
+          roundId,
+          teamId,
+          status: 'ACTIVE',
+          createdAt: new Date(),
+        },
+      })
+
+      syncedPlayers.push(PrismaPlayerMapper.toDomain(created))
+    }
+
+    return syncedPlayers
+  }
 }

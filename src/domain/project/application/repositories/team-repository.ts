@@ -6,4 +6,5 @@ export abstract class TeamRepository {
   abstract findByName(name: string): Promise<Team | null>
   abstract update(teamName: string, newTeamName: string): Promise<Team | null>
   abstract remove(teamName: string): Promise<void>
+  abstract findMany(): Promise<Team[]>
 }

@@ -1,5 +1,6 @@
 import { ChampionshipStatus } from '@prisma/client'
 import { Championship } from '../../enterprise/entities/championship'
+import { ChampionshipWithWaitingRoundsDetails } from './types/admin-round-details'
 
 export abstract class ChampionshipRepository {
   abstract create(championship: Championship): Promise<Championship>
@@ -16,4 +17,8 @@ export abstract class ChampionshipRepository {
   ): Promise<Championship>
 
   abstract removeChampionship(championship: Championship): Promise<void>
+  abstract findMany(): Promise<Championship[]>
+  abstract findManyWithWaitingRounds(
+    userId: string,
+  ): Promise<ChampionshipWithWaitingRoundsDetails[]>
 }

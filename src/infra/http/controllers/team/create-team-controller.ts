@@ -47,6 +47,6 @@ export class CreateTeamController {
 
     const { team } = result.value
 
-    return { teamId: team.id.toString() }
+    return { teamId: team.id.toString(), teamName: team.name }
   }
 }

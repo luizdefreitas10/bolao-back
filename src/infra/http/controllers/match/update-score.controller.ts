@@ -23,7 +23,7 @@ const updateScoreBodySchema = z.object({
   scoreAway: z.number().refine((value) => value >= 0, {
     message: 'O placar deve ser maior ou igual a 0.',
   }),
-  lastPlayerId: z.string(),
+  lastPlayerId: z.string().optional(),
 })
 
 const bodyValidationPipe = new ZodValidationPipe(updateScoreBodySchema)

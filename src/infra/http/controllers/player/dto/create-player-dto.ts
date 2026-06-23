@@ -4,8 +4,11 @@ export class CreatePlayerDto {
   @ApiProperty()
   name!: string
 
-  @ApiProperty()
-  roundId!: string
+  @ApiProperty({ required: false })
+  roundId?: string
+
+  @ApiProperty({ required: false })
+  matchId?: string
 
   @ApiProperty()
   teamId!: string
