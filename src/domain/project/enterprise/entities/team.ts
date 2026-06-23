@@ -5,6 +5,7 @@ import { TeamStatus } from '@prisma/client'
 
 export interface TeamProps {
   name: string
+  logoUrl?: string | null
   createdAt: Date
   updatedAt?: Date | null
   status: TeamStatus
@@ -17,6 +18,14 @@ export class Team extends Entity<TeamProps> {
 
   set name(name) {
     this.props.name = name
+  }
+
+  get logoUrl() {
+    return this.props.logoUrl
+  }
+
+  set logoUrl(logoUrl) {
+    this.props.logoUrl = logoUrl
   }
 
   get createdAt() {

@@ -6,6 +6,7 @@ import { MatchStatus, PredictionType } from '@prisma/client'
 
 export type PlayerProps = {
   name: string
+  photoUrl?: string | null
   team: { name: string }
 }
 export type RoundMatchProps = {

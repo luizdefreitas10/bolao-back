@@ -2,17 +2,17 @@ import { PredictionResponse } from '@/domain/project/application/use-cases/fetch
 
 export class PredictionsPresenter {
   static toHTTP(prediction: PredictionResponse) {
-    console.log(prediction.predictionPlayer?.status)
     return {
       round: {
         id: prediction.round?.id,
         name: prediction.round?.name,
       },
       match: {
+        roundName: prediction.round?.name,
         teamHome: prediction.match?.teamHome,
         teamAway: prediction.match?.teamAway,
         scoreHome: prediction.match?.scoreHome,
-        scoreAway: prediction.match?.scoreHome,
+        scoreAway: prediction.match?.scoreAway,
         date: prediction.match?.date,
         status: prediction.match?.status,
         lastPlayer: prediction.match?.lastPlayer?.name,
@@ -25,6 +25,7 @@ export class PredictionsPresenter {
       predictionPlayer: {
         player: prediction.predictionPlayer?.player,
         team: prediction.predictionPlayer?.team,
+        photoUrl: prediction.predictionPlayer?.photoUrl,
         status: prediction.predictionPlayer?.status,
       },
     }

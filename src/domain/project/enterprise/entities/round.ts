@@ -6,6 +6,7 @@ import { Match } from './match'
 
 export type TeamPropsMatch = {
   name: string
+  logoUrl?: string | null
 }
 
 type MatchProps = {

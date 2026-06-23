@@ -141,14 +141,17 @@ export class PrismaChampionshipRepository implements ChampionshipRepository {
               where: {
                 status: { in: ['WAITING', 'IN_PROGRESS'] },
               },
+              orderBy: {
+                date: 'asc',
+              },
               include: {
-                teamHome: { select: { name: true } },
-                teamAway: { select: { name: true } },
+                teamHome: { select: { name: true, logoUrl: true } },
+                teamAway: { select: { name: true, logoUrl: true } },
                 lastPlayer: {
                   select: {
                     id: true,
                     name: true,
-                    team: { select: { id: true, name: true } },
+                    team: { select: { id: true, name: true, logoUrl: true } },
                   },
                 },
                 predictions: {
@@ -186,6 +189,7 @@ export class PrismaChampionshipRepository implements ChampionshipRepository {
                   select: {
                     id: true,
                     name: true,
+                    photoUrl: true,
                     teamId: true,
                   },
                 })
@@ -198,6 +202,7 @@ export class PrismaChampionshipRepository implements ChampionshipRepository {
                   ? {
                       id: match.lastPlayer.team.id,
                       name: match.lastPlayer.team.name,
+                      logoUrl: match.lastPlayer.team.logoUrl,
                     }
                   : null
 
@@ -207,10 +212,12 @@ export class PrismaChampionshipRepository implements ChampionshipRepository {
                       ? {
                           id: match.teamIdHome,
                           name: match.teamHome.name,
+                          logoUrl: match.teamHome.logoUrl,
                         }
                       : {
                           id: match.teamIdAway,
                           name: match.teamAway.name,
+                          logoUrl: match.teamAway.logoUrl,
                         }
                 }
 
@@ -226,10 +233,20 @@ export class PrismaChampionshipRepository implements ChampionshipRepository {
                   scoreHome: match.scoreHome,
                   status: match.status,
                   date: match.date,
-                  teamHome: { name: match.teamHome.name },
-                  teamAway: { name: match.teamAway.name },
+                  teamHome: {
+                    name: match.teamHome.name,
+                    logoUrl: match.teamHome.logoUrl,
+                  },
+                  teamAway: {
+                    name: match.teamAway.name,
+                    logoUrl: match.teamAway.logoUrl,
+                  },
                   lastPlayerTeam,
-                  players: players.map(({ id, name }) => ({ id, name })),
+                  players: players.map(({ id, name, photoUrl }) => ({
+                    id,
+                    name,
+                    photoUrl,
+                  })),
                   predictions: match.predictions.map((prediction) => ({
                     id: prediction.id,
                     createdAt: prediction.createdAt,

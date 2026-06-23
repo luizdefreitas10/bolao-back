@@ -7,6 +7,7 @@ export class PrismaTeamMapper {
     return Team.create(
       {
         name: raw.name,
+        logoUrl: raw.logoUrl,
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
         status: raw.status,
@@ -19,6 +20,7 @@ export class PrismaTeamMapper {
     return {
       id: team.id.toString(),
       name: team.name,
+      logoUrl: team.logoUrl,
       createdAt: team.createdAt,
       updatedAt: team.updatedAt,
     }

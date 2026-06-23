@@ -22,6 +22,9 @@ async function main() {
   await createRound()
   await createMatch()
   await createPlayersForLastGoal()
+
+  const { seedWorldCup2026 } = await import('./seeders/world-cup-2026-seeder')
+  await seedWorldCup2026(prisma)
 }
 
 main()

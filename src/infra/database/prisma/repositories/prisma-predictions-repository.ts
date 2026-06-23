@@ -117,6 +117,7 @@ export class PrismaPredictionRepository implements PredictionRepository {
         lastPlayer: {
           select: {
             name: true,
+            photoUrl: true,
             team: {
               select: {
                 name: true,
@@ -145,11 +146,13 @@ export class PrismaPredictionRepository implements PredictionRepository {
             teamAway: {
               select: {
                 name: true,
+                logoUrl: true,
               },
             },
             teamHome: {
               select: {
                 name: true,
+                logoUrl: true,
               },
             },
           },

@@ -69,6 +69,7 @@ model Round {
 model Team {
   id                   String                 @id @default(uuid())
   name                 String                 @unique
+  logoUrl              String?
   createdAt            DateTime
   updatedAt            DateTime?
   matchsHome           Match[]                @relation("teamHome")
@@ -81,6 +82,7 @@ model Team {
 model Player {
   id                   String                 @id @default(uuid())
   name                 String
+  photoUrl             String?
   team                 Team                   @relation(fields: [teamId], references: [id])
   teamId               String
   round                Round                  @relation(fields: [roundId], references: [id])
