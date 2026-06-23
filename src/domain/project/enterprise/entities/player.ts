@@ -5,6 +5,7 @@ import { PlayerStatus } from '@prisma/client'
 
 export interface PlayerProps {
   name: string
+  photoUrl?: string | null
   createdAt: Date
   updatedAt?: Date | null
   teamId: UniqueEntityID
@@ -19,6 +20,14 @@ export class Player extends Entity<PlayerProps> {
 
   set name(name) {
     this.props.name = name
+  }
+
+  get photoUrl() {
+    return this.props.photoUrl
+  }
+
+  set photoUrl(photoUrl) {
+    this.props.photoUrl = photoUrl
   }
 
   get createdAt() {

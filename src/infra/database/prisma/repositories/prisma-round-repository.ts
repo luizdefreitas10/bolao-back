@@ -136,12 +136,14 @@ export class PrismaRoundRepository implements RoundRepository {
               select: {
                 id: true,
                 name: true,
+                logoUrl: true,
               },
             },
             teamAway: {
               select: {
                 id: true,
                 name: true,
+                logoUrl: true,
               },
             },
             lastPlayer: {
@@ -183,6 +185,7 @@ export class PrismaRoundRepository implements RoundRepository {
               select: {
                 id: true,
                 name: true,
+                photoUrl: true,
                 teamId: true,
               },
             })

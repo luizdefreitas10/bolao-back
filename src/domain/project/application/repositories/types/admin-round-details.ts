@@ -6,15 +6,15 @@ export type AdminMatchDetails = {
   scoreHome: number
   status: MatchStatus
   date: Date
-  teamHome: { id: string; name: string }
-  teamAway: { id: string; name: string }
+  teamHome: { id: string; name: string; logoUrl?: string | null }
+  teamAway: { id: string; name: string; logoUrl?: string | null }
   lastPlayer: {
     id: string
     name: string
-    team: { id: string; name: string }
+    team: { id: string; name: string; logoUrl?: string | null }
   } | null
-  lastPlayerTeam: { id: string; name: string } | null
-  players: { id: string; name: string }[]
+  lastPlayerTeam: { id: string; name: string; logoUrl?: string | null } | null
+  players: { id: string; name: string; photoUrl?: string | null }[]
 }
 
 export type AdminRoundDetails = {
@@ -42,10 +42,10 @@ export type ChampionshipWithWaitingRoundsDetails = {
       scoreHome: number
       status: string
       date: Date
-      teamHome: { name: string }
-      teamAway: { name: string }
-      lastPlayerTeam: { id: string; name: string } | null
-      players: { id: string; name: string }[]
+      teamHome: { name: string; logoUrl?: string | null }
+      teamAway: { name: string; logoUrl?: string | null }
+      lastPlayerTeam: { id: string; name: string; logoUrl?: string | null } | null
+      players: { id: string; name: string; photoUrl?: string | null }[]
       predictions: {
         id: string
         createdAt: Date

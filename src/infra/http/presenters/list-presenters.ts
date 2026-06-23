@@ -22,6 +22,7 @@ export class TeamListPresenter {
     return {
       id: team.id.toString(),
       name: team.name,
+      logoUrl: team.logoUrl ?? null,
       createdAt: team.createdAt,
     }
   }

@@ -7,6 +7,7 @@ export class PrismaPlayerMapper {
     return Player.create(
       {
         name: raw.name,
+        photoUrl: raw.photoUrl,
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
         status: raw.status,
@@ -21,6 +22,7 @@ export class PrismaPlayerMapper {
     return {
       id: player.id.toString(),
       name: player.name,
+      photoUrl: player.photoUrl,
       createdAt: player.createdAt,
       updatedAt: player.updatedAt,
       roundId: player.roundId.toString(),

@@ -9,8 +9,8 @@ export type PredictionResponse = {
     name?: string
   }
   match?: {
-    teamHome?: string
-    teamAway?: string
+    teamHome?: { name?: string; logoUrl?: string | null }
+    teamAway?: { name?: string; logoUrl?: string | null }
     scoreHome?: number
     scoreAway?: number
     date?: Date
@@ -25,6 +25,7 @@ export type PredictionResponse = {
   predictionPlayer?: {
     player?: string
     team?: string
+    photoUrl?: string | null
     status?: 'HIT' | 'MISS' | null
   }
 }
@@ -60,8 +61,14 @@ export class FetchPredicitonByUserUseCase {
             date: item.match?.date,
             scoreHome: item.match?.scoreHome,
             scoreAway: item.match?.scoreAway,
-            teamAway: item.match?.teamAway.name,
-            teamHome: item.match?.teamHome.name,
+            teamAway: {
+              name: item.match?.teamAway.name,
+              logoUrl: item.match?.teamAway.logoUrl,
+            },
+            teamHome: {
+              name: item.match?.teamHome.name,
+              logoUrl: item.match?.teamHome.logoUrl,
+            },
             status: item.match?.status,
             lastPlayer: {
               name: item.match?.lastPlayer?.name,
@@ -120,6 +127,7 @@ export class FetchPredicitonByUserUseCase {
               ? (existRound[0].predictionPlayer = {
                   player: item.lastPlayer?.name,
                   team: item.lastPlayer?.team.name,
+                  photoUrl: item.lastPlayer?.photoUrl,
                   status: statusPredictionPlayer,
                 })
               : predictionsResponse.push({
@@ -127,6 +135,7 @@ export class FetchPredicitonByUserUseCase {
                   predictionPlayer: {
                     player: item.lastPlayer?.name,
                     team: item.lastPlayer?.team.name,
+                    photoUrl: item.lastPlayer?.photoUrl,
                     status: statusPredictionPlayer,
                   },
                 })
