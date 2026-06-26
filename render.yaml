@@ -1,0 +1,57 @@
+databases:
+  - name: bolao-api-db
+    plan: free
+    region: oregon
+    databaseName: bolao_api_db
+    user: bolao_api_db_user
+
+services:
+  - type: web
+    name: bolao-api
+    runtime: node
+    plan: free
+    region: oregon
+    repo: https://github.com/luizdefreitas10/bolao-back
+    branch: main
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: npx prisma migrate deploy && npm run seed && npm run start:prod
+    healthCheckPath: /v1/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3333
+      - key: SMS_ENABLED
+        value: false
+      - key: FRONTEND_URL
+        value: https://bolao-front-luizdefreitas10s-projects.vercel.app
+      - key: DATABASE_URL
+        fromDatabase:
+          name: bolao-api-db
+          property: connectionString
+      - key: DATABASE_USER
+        value: bolao_api_db_user
+      - key: DATABASE_PASSWORD
+        fromDatabase:
+          name: bolao-api-db
+          property: password
+      - key: DATABASE_NAME
+        value: bolao_api_db
+      - key: DATABASE_POSTGRES_PORT
+        value: 5432
+      - key: DATABASE_REDIS_URL
+        value: localhost
+      - key: DATABASE_REDIS_PORT
+        value: 6379
+      - key: DATABASE_REDIS_USERNAME
+        value: default
+      - key: DATABASE_REDIS_PASSWORD
+        value: placeholder
+      - key: DISPARO_PRO_URL
+        value: https://placeholder.local
+      - key: DISPARO_PRO_TOKEN
+        value: placeholder
+      - key: JWT_PRIVATE_KEY
+        sync: false
+      - key: JWT_PUBLIC_KEY
+        sync: false
