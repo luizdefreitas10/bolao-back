@@ -20,6 +20,7 @@ export const envSchema = z.object({
     .default('false')
     .transform((value) => value === 'true'),
   FRONTEND_URL: z.string().optional(),
+  SYNC_SECRET: z.string().optional(),
   DISPARO_PRO_URL: z.coerce.string().optional().default('https://placeholder.local'),
   DISPARO_PRO_TOKEN: z.coerce.string().optional().default('placeholder'),
   DATABASE_REDIS_URL: z.coerce.string().optional().default('localhost'),

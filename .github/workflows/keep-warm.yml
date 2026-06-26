@@ -1,4 +1,4 @@
-# Keep API Warm
+# Keep API Warm + Sync WC2026 Results
 
 on:
   schedule:
@@ -6,10 +6,19 @@ on:
   workflow_dispatch:
 
 jobs:
-  ping-health:
+  ping-and-sync:
     runs-on: ubuntu-latest
     steps:
       - name: Ping health endpoint
         run: |
           curl --fail --silent --show-error --max-time 30 \
             "https://bolao-back-api.onrender.com/v1/health"
+
+      - name: Sync WC2026 match results
+        if: ${{ secrets.SYNC_SECRET != '' }}
+        run: |
+          curl --silent --show-error --max-time 30 \
+            -X POST \
+            -H "x-sync-secret: ${{ secrets.SYNC_SECRET }}" \
+            "https://bolao-back-api.onrender.com/v1/sync-results" \
+          || echo "Sync skipped or failed (non-critical)"

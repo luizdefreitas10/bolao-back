@@ -89,11 +89,13 @@ import { FetchPlayersByTeamController } from './controllers/player/fetch-players
 import { UpdatePlayersMatchUseCase } from '@/domain/project/application/use-cases/update-players-match'
 import { UpdatePlayersMatchController } from './controllers/player/update-players-match.controller'
 import { HealthController } from './controllers/health/health.controller'
+import { SyncResultsController } from './controllers/sync/sync-results.controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, JobsModule.register()],
   controllers: [
     HealthController,
+    SyncResultsController,
     AuthenticateController,
     CreateAccountController,
     ResetPasswordController,
