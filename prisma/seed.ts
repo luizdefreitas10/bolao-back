@@ -7,7 +7,7 @@ const prisma = new PrismaClient()
 async function main() {
   const {
     createAdminUser,
-    createNormalUser,
+    createDemoUsers,
     createChampionship,
     createMatch,
     createRound,
@@ -16,7 +16,7 @@ async function main() {
   } = await CreateInitialDataSeeder(prisma)
 
   await createAdminUser()
-  await createNormalUser()
+  await createDemoUsers()
   await createTeams()
   await createChampionship()
   await createRound()
