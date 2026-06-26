@@ -88,10 +88,12 @@ import { FetchPlayersByTeamUseCase } from '@/domain/project/application/use-case
 import { FetchPlayersByTeamController } from './controllers/player/fetch-players-by-team.controller'
 import { UpdatePlayersMatchUseCase } from '@/domain/project/application/use-cases/update-players-match'
 import { UpdatePlayersMatchController } from './controllers/player/update-players-match.controller'
+import { HealthController } from './controllers/health/health.controller'
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule, JobsModule],
+  imports: [DatabaseModule, CryptographyModule, JobsModule.register()],
   controllers: [
+    HealthController,
     AuthenticateController,
     CreateAccountController,
     ResetPasswordController,

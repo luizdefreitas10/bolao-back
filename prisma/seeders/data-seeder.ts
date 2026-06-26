@@ -3,9 +3,41 @@ import { hash } from 'bcryptjs'
 
 const ADMIN_PHONE = '5581997825316'
 const ADMIN_PASSWORD = 'admin'
-const USER_PHONE = '5581999990001'
-const USER_PASSWORD = '123456'
+const DEMO_USER_PASSWORD = '123456'
 const HASH_SALT_LENGTH = 8
+
+const DEMO_USERS = [
+  {
+    phone: '5581999990001',
+    fullName: 'João Silva',
+    userName: 'joao_silva',
+    email: 'joao@demo.com',
+  },
+  {
+    phone: '5581999990002',
+    fullName: 'Maria Santos',
+    userName: 'maria_santos',
+    email: 'maria@demo.com',
+  },
+  {
+    phone: '5581999990003',
+    fullName: 'Pedro Oliveira',
+    userName: 'pedro_oliveira',
+    email: 'pedro@demo.com',
+  },
+  {
+    phone: '5581999990004',
+    fullName: 'Ana Costa',
+    userName: 'ana_costa',
+    email: 'ana@demo.com',
+  },
+  {
+    phone: '5581999990005',
+    fullName: 'Carlos Lima',
+    userName: 'carlos_lima',
+    email: 'carlos@demo.com',
+  },
+]
 
 export async function CreateInitialDataSeeder(prisma: PrismaClient) {
   async function createAdminUser() {
@@ -31,27 +63,32 @@ export async function CreateInitialDataSeeder(prisma: PrismaClient) {
     })
   }
 
-  async function createNormalUser() {
-    const hashedPassword = await hash(USER_PASSWORD, HASH_SALT_LENGTH)
+  async function createDemoUsers() {
+    for (const demoUser of DEMO_USERS) {
+      const hashedPassword = await hash(DEMO_USER_PASSWORD, HASH_SALT_LENGTH)
 
-    await prisma.user.upsert({
-      where: { phone: USER_PHONE },
-      update: {
-        password: hashedPassword,
-        role: 'USER',
-        isVerified: true,
-      },
-      create: {
-        fullName: 'Usuario Teste',
-        userName: 'usuario_teste',
-        phone: USER_PHONE,
-        password: hashedPassword,
-        email: 'usuario@teste.com',
-        role: 'USER',
-        createdAt: new Date(),
-        isVerified: true,
-      },
-    })
+      await prisma.user.upsert({
+        where: { phone: demoUser.phone },
+        update: {
+          password: hashedPassword,
+          role: 'USER',
+          isVerified: true,
+          fullName: demoUser.fullName,
+          userName: demoUser.userName,
+          email: demoUser.email,
+        },
+        create: {
+          fullName: demoUser.fullName,
+          userName: demoUser.userName,
+          phone: demoUser.phone,
+          password: hashedPassword,
+          email: demoUser.email,
+          role: 'USER',
+          createdAt: new Date(),
+          isVerified: true,
+        },
+      })
+    }
   }
 
   async function createTeams() {
@@ -197,7 +234,7 @@ export async function CreateInitialDataSeeder(prisma: PrismaClient) {
     createRound,
     createMatch,
     createAdminUser,
-    createNormalUser,
+    createDemoUsers,
     createPlayersForLastGoal,
   }
 }

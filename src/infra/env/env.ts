@@ -12,13 +12,19 @@ export const envSchema = z.object({
   DATABASE_PASSWORD: z.string(),
   DATABASE_NAME: z.string(),
   DATABASE_POSTGRES_PORT: z.coerce.number(),
-  DATABASE_REDIS_PORT: z.coerce.number(),
+  DATABASE_REDIS_PORT: z.coerce.number().optional().default(6379),
   APP_VERSION: z.coerce.number().default(1),
-  DISPARO_PRO_URL: z.coerce.string(),
-  DISPARO_PRO_TOKEN: z.coerce.string(),
-  DATABASE_REDIS_URL: z.coerce.string(),
-  DATABASE_REDIS_USERNAME: z.coerce.string(),
-  DATABASE_REDIS_PASSWORD: z.coerce.string(),
+  SMS_ENABLED: z
+    .enum(['true', 'false'])
+    .optional()
+    .default('false')
+    .transform((value) => value === 'true'),
+  FRONTEND_URL: z.string().url().optional(),
+  DISPARO_PRO_URL: z.coerce.string().optional().default('https://placeholder.local'),
+  DISPARO_PRO_TOKEN: z.coerce.string().optional().default('placeholder'),
+  DATABASE_REDIS_URL: z.coerce.string().optional().default('localhost'),
+  DATABASE_REDIS_USERNAME: z.coerce.string().optional().default('default'),
+  DATABASE_REDIS_PASSWORD: z.coerce.string().optional().default(''),
 })
 
 export type Env = z.infer<typeof envSchema>
