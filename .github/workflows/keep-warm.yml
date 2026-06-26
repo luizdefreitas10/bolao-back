@@ -12,4 +12,4 @@ jobs:
       - name: Ping health endpoint
         run: |
           curl --fail --silent --show-error --max-time 30 \
-            "https://bolao-api-9g92.onrender.com/v1/health"
+            "https://bolao-back-api.onrender.com/v1/health"

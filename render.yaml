@@ -13,7 +13,7 @@ services:
     region: oregon
     repo: https://github.com/luizdefreitas10/bolao-back
     branch: main
-    buildCommand: npm install && npm run build
+    buildCommand: NPM_CONFIG_PRODUCTION=false npm install && npm run build
     startCommand: npm run deploy:prepare && npm run start:prod
     healthCheckPath: /v1/health
     envVars:
