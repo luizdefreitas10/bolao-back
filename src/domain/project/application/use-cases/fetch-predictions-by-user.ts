@@ -4,6 +4,7 @@ import { PredictionRepository } from '../repositories/prediction-repository'
 import { MatchStatus } from '@prisma/client'
 
 export type PredictionResponse = {
+  matchId?: string
   round?: {
     id?: string
     name?: string
@@ -29,6 +30,7 @@ export type PredictionResponse = {
     status?: 'HIT' | 'MISS' | null
   }
 }
+
 interface FetchPredicitonByUserUseCaseRequest {
   userId: string
 }
@@ -52,7 +54,10 @@ export class FetchPredicitonByUserUseCase {
       const predictionsResponse: PredictionResponse[] = []
 
       for (const item of predictions) {
+        const matchId = item.matchId.toString()
+
         const matchAndRound = {
+          matchId,
           round: {
             id: item.match?.roundId,
             name: item.match?.round.name,
@@ -75,11 +80,15 @@ export class FetchPredicitonByUserUseCase {
             },
           },
         }
-        const existRound = predictionsResponse.filter(
-          (prediction) => prediction.round?.id === item.match?.roundId,
+
+        // Group by matchId (not roundId) so every match gets its own entry
+        const existMatch = predictionsResponse.find(
+          (p) => p.matchId === matchId,
         )
-        let statusPredictionScore
-        let statusPredictionPlayer
+
+        let statusPredictionScore: 'HIT' | 'MISS' | undefined
+        let statusPredictionPlayer: 'HIT' | 'MISS' | undefined
+
         switch (item.predictionType) {
           case 'SCORE':
             if (
@@ -95,21 +104,25 @@ export class FetchPredicitonByUserUseCase {
             ) {
               statusPredictionScore = 'MISS'
             }
-            existRound.length > 0
-              ? (existRound[0].predictionScore = {
+
+            if (existMatch) {
+              existMatch.predictionScore = {
+                predictionAway: item.predictionAway,
+                predictionHome: item.predictionHome,
+                status: statusPredictionScore ?? null,
+              }
+            } else {
+              predictionsResponse.push({
+                ...matchAndRound,
+                predictionScore: {
                   predictionAway: item.predictionAway,
                   predictionHome: item.predictionHome,
-                  status: statusPredictionScore,
-                })
-              : predictionsResponse.push({
-                  ...matchAndRound,
-                  predictionScore: {
-                    predictionAway: item.predictionAway,
-                    predictionHome: item.predictionHome,
-                    status: statusPredictionScore,
-                  },
-                })
+                  status: statusPredictionScore ?? null,
+                },
+              })
+            }
             break
+
           case 'PLAYER':
             if (
               item.match?.status === 'DONE' &&
@@ -122,30 +135,37 @@ export class FetchPredicitonByUserUseCase {
             ) {
               statusPredictionPlayer = 'MISS'
             }
-            console.log(item.lastPlayer)
-            existRound.length > 0
-              ? (existRound[0].predictionPlayer = {
+
+            if (existMatch) {
+              existMatch.predictionPlayer = {
+                player: item.lastPlayer?.name,
+                team: item.lastPlayer?.team.name,
+                photoUrl: item.lastPlayer?.photoUrl,
+                status: statusPredictionPlayer ?? null,
+              }
+            } else {
+              predictionsResponse.push({
+                ...matchAndRound,
+                predictionPlayer: {
                   player: item.lastPlayer?.name,
                   team: item.lastPlayer?.team.name,
                   photoUrl: item.lastPlayer?.photoUrl,
-                  status: statusPredictionPlayer,
-                })
-              : predictionsResponse.push({
-                  ...matchAndRound,
-                  predictionPlayer: {
-                    player: item.lastPlayer?.name,
-                    team: item.lastPlayer?.team.name,
-                    photoUrl: item.lastPlayer?.photoUrl,
-                    status: statusPredictionPlayer,
-                  },
-                })
+                  status: statusPredictionPlayer ?? null,
+                },
+              })
+            }
             break
         }
       }
 
-      return right({
-        predictions: predictionsResponse,
+      // Sort by match date descending (most recent first)
+      predictionsResponse.sort((a, b) => {
+        const dateA = a.match?.date ? new Date(a.match.date).getTime() : 0
+        const dateB = b.match?.date ? new Date(b.match.date).getTime() : 0
+        return dateB - dateA
       })
+
+      return right({ predictions: predictionsResponse })
     } catch (error) {
       return left(new UnprocessableEntityException())
     }

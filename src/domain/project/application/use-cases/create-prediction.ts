@@ -80,8 +80,8 @@ export class CreatePredictionUseCase {
         })
       } else if (
         predictionType === 'SCORE' &&
-        predictionAway &&
-        predictionHome
+        predictionAway !== undefined &&
+        predictionHome !== undefined
       ) {
         const newPrediction = await this.predictionRepository.updateScore(
           predictionAlreadyExist.id.toString(),

@@ -104,6 +104,9 @@ export class PrismaPredictionRepository implements PredictionRepository {
       where: {
         userId: id,
       },
+      orderBy: {
+        match: { date: 'desc' },
+      },
       select: {
         id: true,
         createdAt: true,

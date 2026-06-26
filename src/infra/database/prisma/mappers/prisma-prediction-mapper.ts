@@ -29,7 +29,6 @@ type PredictionProps = PrismaPrediction & {
 
 export class PrismaPredictionMapper {
   static toDomainWithMatch(raw: PredictionProps): Prediction {
-    console.log(raw)
     return Prediction.create(
       {
         predictionAway: raw.predictionAway,
