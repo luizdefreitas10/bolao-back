@@ -1,4 +1,4 @@
-name: Keep API Warm
+# Keep API Warm
 
 on:
   schedule:
@@ -12,4 +12,4 @@ jobs:
       - name: Ping health endpoint
         run: |
           curl --fail --silent --show-error --max-time 30 \
-            "${{ vars.API_HEALTH_URL || 'https://bolao-api.onrender.com/v1/health' }}"
+            "https://bolao-api-9g92.onrender.com/v1/health"

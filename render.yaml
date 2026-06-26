@@ -13,8 +13,8 @@ services:
     region: oregon
     repo: https://github.com/luizdefreitas10/bolao-back
     branch: main
-    buildCommand: npm install && npx prisma generate && npm run build
-    startCommand: npx prisma migrate deploy && npm run seed && npm run start:prod
+    buildCommand: npm install && npm run build
+    startCommand: npm run deploy:prepare && npm run start:prod
     healthCheckPath: /v1/health
     envVars:
       - key: NODE_ENV
