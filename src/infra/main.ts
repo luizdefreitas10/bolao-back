@@ -26,10 +26,13 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('api', app, document)
   const frontendUrl = configService.get('FRONTEND_URL')
+  const extraOrigins = frontendUrl
+    ? frontendUrl.split(',').map((u) => u.trim()).filter(Boolean)
+    : []
   const corsOrigins = [
     'http://localhost:3333',
     'http://localhost:3000',
-    ...(frontendUrl ? [frontendUrl] : []),
+    ...extraOrigins,
   ]
 
   app.enableCors({
